@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Game } from '../Game';
 
 @Component({
@@ -8,7 +8,7 @@ import { Game } from '../Game';
 })
 export class LibraryComponent implements OnInit {
 
-  games : Game[];
+  @Input()games : Game[];
 
   constructor() { }
 
