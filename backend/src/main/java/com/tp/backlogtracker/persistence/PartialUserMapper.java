@@ -17,7 +17,7 @@ class PartialUserMapper implements RowMapper<User> {
     @Override
     public User mapRow(ResultSet resultSet, int i) throws SQLException {
         User partialUser = new User();
-        partialUser.setUserID(resultSet.getInt(idCol));
+        partialUser.setUserID(resultSet.getString(idCol));
         partialUser.setName(resultSet.getString("name"));
         return partialUser;
     }

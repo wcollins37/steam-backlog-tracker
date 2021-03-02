@@ -43,7 +43,7 @@ class UserPostgresDaoTest {
     public void testAddUserGoldenPath() {
         User user = null;
         try {
-            user = toTest.getUserByID(toTest.addUser(3, "testAdd"));
+            user = toTest.getUserByID(toTest.addUser("3", "testAdd"));
         } catch (InvalidUserIDException | InvalidUserNameException | NoChangesMadeException ex) {
             fail();
         }
@@ -58,24 +58,24 @@ class UserPostgresDaoTest {
 
     @Test
     public void testAddUserNullUserName() {
-        assertThrows(InvalidUserNameException.class, () -> toTest.addUser(99, null));
+        assertThrows(InvalidUserNameException.class, () -> toTest.addUser("99", null));
     }
 
     @Test
     public void testAddUserEmptyUserName() {
-        assertThrows(InvalidUserNameException.class, () -> toTest.addUser(99, ""));
+        assertThrows(InvalidUserNameException.class, () -> toTest.addUser("99", ""));
     }
 
     @Test
     public void testAddUserUserIDAlreadyExists() {
-        assertThrows(NoChangesMadeException.class, () -> toTest.addUser(1, "no"));
+        assertThrows(NoChangesMadeException.class, () -> toTest.addUser("1", "no"));
     }
 
     @Test
     public void testGetUserByIDGoldenPath() {
         User user = null;
         try {
-            user = toTest.getUserByID(1);
+            user = toTest.getUserByID("1");
         } catch (InvalidUserIDException ex) {
             fail();
         }
@@ -90,14 +90,14 @@ class UserPostgresDaoTest {
 
     @Test
     public void testGetUserByIDNoUserFound() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.getUserByID(-1));
+        assertThrows(InvalidUserIDException.class, () -> toTest.getUserByID("-1"));
     }
 
     @Test
     public void testAddFriendGoldenPath() {
         User friend = null;
         try {
-            friend = toTest.getUserByID(toTest.addFriend(1, 2));
+            friend = toTest.getUserByID(toTest.addFriend("1", "2"));
         } catch (InvalidUserIDException | NoChangesMadeException ex) {
             fail();
         }
@@ -107,29 +107,29 @@ class UserPostgresDaoTest {
 
     @Test
     public void testAddFriendsNullUserID() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.addFriend(null, 1));
+        assertThrows(InvalidUserIDException.class, () -> toTest.addFriend(null, "1"));
     }
 
     @Test
     public void testAddFriendsNullFriendID() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.addFriend(1, null));
+        assertThrows(InvalidUserIDException.class, () -> toTest.addFriend("1", null));
     }
 
     @Test
     public void testAddFriendsIdenticalIDs() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.addFriend(1, 1));
+        assertThrows(InvalidUserIDException.class, () -> toTest.addFriend("1", "1"));
     }
 
     @Test
     public void testAddFriendsAddingAgain() {
         User friend = null;
         try {
-            friend = toTest.getUserByID(toTest.addFriend(1, 2));
+            friend = toTest.getUserByID(toTest.addFriend("1", "2"));
         } catch (InvalidUserIDException | NoChangesMadeException ex) {
             fail();
         }
         try {
-            friend = toTest.getUserByID(toTest.addFriend(1,2));
+            friend = toTest.getUserByID(toTest.addFriend("1","2"));
             fail();
         } catch (InvalidUserIDException ex) {
             fail();
@@ -142,8 +142,8 @@ class UserPostgresDaoTest {
     public void testGetUserFriendsGoldenPath() {
         List<User> friends = new ArrayList<>();
         try {
-            toTest.addFriend(1,2);
-            friends = toTest.getUserFriends(1);
+            toTest.addFriend("1","2");
+            friends = toTest.getUserFriends("1");
         } catch (InvalidUserIDException | NoChangesMadeException ex) {
             fail();
         }
@@ -161,7 +161,7 @@ class UserPostgresDaoTest {
     @Test
     public void testGetUserFriendsNoFriendsFound() {
         try {
-            List<User> friends = toTest.getUserFriends(3);
+            List<User> friends = toTest.getUserFriends("3");
             assertEquals(0,friends.size());
         } catch (InvalidUserIDException ex) {
             fail();

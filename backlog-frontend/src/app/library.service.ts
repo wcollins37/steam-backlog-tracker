@@ -5,6 +5,8 @@ import { Game } from './Game';
 import {User} from './User';
 import {tap, catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
+import { UserComponent } from './user/user.component';
+import { SteamUserInfo } from './SteamUserInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,8 @@ import {of} from 'rxjs';
 export class LibraryService {
 
   baseURL : string = "http://localhost:8080/api";
+  steamURL : string = "http://api.steampowered.com";
+  apiKey : string = "F777B10EBCB73303DD6B5FC5FD76F321";
   httpOptions = {headers: new HttpHeaders({"Content-Type": "application/json"})};
 
   constructor(private http : HttpClient) { }
@@ -26,5 +30,21 @@ export class LibraryService {
         return of(empty);
       })
     );
+  }
+
+  retrieveSteamUserInfo(userID : string) : Observable<SteamUserInfo> {
+    return this.http.get<SteamUserInfo>(this.baseURL + "/test")
+    .pipe(
+      tap(x => console.log(x)),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  addUser(toAdd : User) : Observable<User> {
+    console.log("User = " + toAdd.name);
+    return this.http.post<User>(this.baseURL + "/user/add", toAdd, this.httpOptions);
   }
 }

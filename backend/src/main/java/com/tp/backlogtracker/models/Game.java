@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Game {
 
-    int gameID;
+    String gameID;
     String name;
     double hoursPlayed;
     String userName;
@@ -15,11 +15,11 @@ public class Game {
 
     }
 
-    public int getGameID() {
+    public String getGameID() {
         return gameID;
     }
 
-    public void setGameID(int gameID) {
+    public void setGameID(String gameID) {
         this.gameID = gameID;
     }
 

@@ -3,7 +3,7 @@ package com.tp.backlogtracker.models;
 import java.util.List;
 
 public class User {
-    Integer userID;
+    String userID;
     String name;
     List<Game> library;
     Double avgPlayTime;
@@ -11,11 +11,11 @@ public class User {
     Double percentCompleted;
     List<User> friends;
 
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

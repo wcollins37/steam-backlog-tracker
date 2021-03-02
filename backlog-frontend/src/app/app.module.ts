@@ -8,7 +8,8 @@ import { LibraryComponent } from './library/library.component';
 import { UserComponent } from './user/user.component';
 import { GetUserComponent } from './get-user/get-user.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     GameComponent,
     LibraryComponent,
     UserComponent,
-    GetUserComponent
+    GetUserComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,

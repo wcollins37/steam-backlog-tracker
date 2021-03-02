@@ -19,20 +19,20 @@ public class GameInMemDao implements GameDao {
     Random rand = new Random();
 
     // game, userID
-    Map<Game, Integer> allGames = new HashMap<>();
+    Map<Game, String> allGames = new HashMap<>();
 
     public GameInMemDao() {
         allGames = new HashMap<>();
     }
 
     @Override
-    public int addGame(Integer userID, Game game) {
+    public String addGame(String userID, Game game) {
         allGames.put(game, userID);
         return userID;
     }
 
     @Override
-    public List<Game> getGamesByUserID(Integer userID) throws InvalidUserIDException {
+    public List<Game> getGamesByUserID(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -60,7 +60,7 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public List<Game> getUserGamesInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public List<Game> getUserGamesInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         List<Game> games = getGamesByUserID(userID);
         List<Game> genreGames = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public List<Game> getUserGamesUnderHoursPlayed(Integer userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
+    public List<Game> getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
         List<Game> games = getGamesByUserID(userID);
         List<Game> playTimeGames = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public List<Game> getLeastPlayedGameInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -126,7 +126,7 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public Game changeCompletedStatus(Integer userID, Integer gameID) throws NoGamesFoundException {
+    public Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {
         if (gameID == null) {
             throw new NoGamesFoundException("No changes made");
         }
@@ -145,7 +145,7 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public double getUserAveragePlayTime(Integer userID) throws InvalidUserIDException {
+    public double getUserAveragePlayTime(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -165,7 +165,7 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public int getNumOfUncompletedGames(Integer userID) throws InvalidUserIDException {
+    public int getNumOfUncompletedGames(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }

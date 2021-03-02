@@ -1,22 +1,22 @@
 package com.tp.backlogtracker.models;
 
 public class UserGameRequest {
-    int userID;
-    int gameID;
+    String userID;
+    String gameID;
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
-    public int getGameID() {
+    public String getGameID() {
         return gameID;
     }
 
-    public void setGameID(int gameID) {
+    public void setGameID(String gameID) {
         this.gameID = gameID;
     }
 }

@@ -18,6 +18,7 @@ export class GetUserComponent implements OnInit {
   }
 
   getUserByID() {
+    
     this.router.navigate(["user"], {queryParams: {id: this.userID}});
   }
 

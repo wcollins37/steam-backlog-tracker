@@ -7,13 +7,13 @@ import com.tp.backlogtracker.models.Game;
 import java.util.List;
 
 public interface GameDao {
-    int addGame(Integer userID, Game game);
-    List<Game> getGamesByUserID(Integer userID) throws InvalidUserIDException;
+    String addGame(String userID, Game game);
+    List<Game> getGamesByUserID(String userID) throws InvalidUserIDException;
     void assignGameGenres(Game game);
-    List<Game> getUserGamesInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException;
-    List<Game> getUserGamesUnderHoursPlayed(Integer userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException;
-    List<Game> getLeastPlayedGameInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException;
-    Game changeCompletedStatus(Integer userID, Integer gameID) throws NoGamesFoundException;
-    double getUserAveragePlayTime(Integer userID) throws InvalidUserIDException;
-    int getNumOfUncompletedGames(Integer userID) throws InvalidUserIDException;
+    List<Game> getUserGamesInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException;
+    List<Game> getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException;
+    List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException;
+    Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException;
+    double getUserAveragePlayTime(String userID) throws InvalidUserIDException;
+    int getNumOfUncompletedGames(String userID) throws InvalidUserIDException;
 }

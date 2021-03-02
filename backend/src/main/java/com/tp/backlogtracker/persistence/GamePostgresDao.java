@@ -22,7 +22,7 @@ public class GamePostgresDao implements GameDao {
     Random rand = new Random();
 
     @Override
-    public int addGame(Integer userID, Game game) {
+    public String addGame(String userID, Game game) {
         // see if genre exists in Genres
         // if not, add genre id and name to Genres
         // add gameID and name to Games if it doesn't exist
@@ -30,7 +30,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public List<Game> getGamesByUserID(Integer userID) throws InvalidUserIDException {
+    public List<Game> getGamesByUserID(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -74,7 +74,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public List<Game> getUserGamesInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public List<Game> getUserGamesInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -101,7 +101,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public List<Game> getUserGamesUnderHoursPlayed(Integer userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
+    public List<Game> getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -135,7 +135,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public List<Game> getLeastPlayedGameInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -162,7 +162,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public Game changeCompletedStatus(Integer userID, Integer gameID) throws NoGamesFoundException {
+    public Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {
         int switchResult = template.update("update \"UserGames\" set \"completed\" = not \"completed\" where \"userID\" = ? and \"gameID\" = ?;",
                 userID,
                 gameID);
@@ -186,7 +186,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public double getUserAveragePlayTime(Integer userID) throws InvalidUserIDException {
+    public double getUserAveragePlayTime(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -209,7 +209,7 @@ public class GamePostgresDao implements GameDao {
     }
 
     @Override
-    public int getNumOfUncompletedGames(Integer userID) throws InvalidUserIDException {
+    public int getNumOfUncompletedGames(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }

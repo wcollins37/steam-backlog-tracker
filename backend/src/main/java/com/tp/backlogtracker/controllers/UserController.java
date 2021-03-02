@@ -11,6 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin()
@@ -18,6 +24,19 @@ public class UserController {
 
     @Autowired
     BacklogService service;
+
+    @GetMapping("/test")
+    public ResponseEntity testSteam() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamids=76561198022304257&format=json")).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(response.body());
+    }
 
     @PostMapping("/user/add")
     public ResponseEntity addUser(@RequestBody User user) {
@@ -31,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/user/{userID}/addfriend")
-    public ResponseEntity addFriend(@PathVariable Integer userID, @RequestBody User friend) {
+    public ResponseEntity addFriend(@PathVariable String userID, @RequestBody User friend) {
         User toReturn = null;
         try {
             toReturn = service.addFriend(userID, friend.getUserID());
@@ -42,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userID}")
-    public ResponseEntity getUserByID(@PathVariable Integer userID) {
+    public ResponseEntity getUserByID(@PathVariable String userID) {
         User toReturn = null;
         try {
             toReturn = service.getUserByID(userID);
@@ -53,7 +72,7 @@ public class UserController {
     }
 
     /*@GetMapping("/user/{userID}/sort/genre")
-    public ResponseEntity sortUserGamesByGenre(@PathVariable Integer userID) {
+    public ResponseEntity sortUserGamesByGenre(@PathVariable String userID) {
         User toReturn = null;
         try {
             toReturn = service.sortUserGamesByGenre(userID);
@@ -64,7 +83,7 @@ public class UserController {
     }*/
 
     @GetMapping("/user/{userID}/genre/{genre}")
-    public ResponseEntity getUserGamesByGenre(@PathVariable Integer userID, @PathVariable String genre) {
+    public ResponseEntity getUserGamesByGenre(@PathVariable String userID, @PathVariable String genre) {
         User toReturn = null;
         try {
             toReturn = service.getUserGamesByGenre(userID, genre);
@@ -75,7 +94,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userID}/sort/hoursplayed")
-    public ResponseEntity sortUserGamesByPlayTime(@PathVariable Integer userID) {
+    public ResponseEntity sortUserGamesByPlayTime(@PathVariable String userID) {
         User toReturn = null;
         try {
             toReturn = service.sortUserGamesByHoursPlayed(userID);
@@ -86,7 +105,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userID}/hoursplayed/{hoursPlayed}")
-    public ResponseEntity getUserGamesUnderPlayTime(@PathVariable Integer userID, @PathVariable Double hoursPlayed) {
+    public ResponseEntity getUserGamesUnderPlayTime(@PathVariable String userID, @PathVariable Double hoursPlayed) {
         User toReturn = null;
         try {
             toReturn = service.getUserGamesUnderHoursPlayed(userID, hoursPlayed);

@@ -24,19 +24,22 @@ public class BacklogService {
 
     Random rand = new Random();
 
-    public User addUser(Integer userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException{
-        return getUserByID(userDao.addUser(userID, name));
+    public User addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+        User newUser = new User();
+        newUser.setUserID(userDao.addUser(userID, name));
+        newUser.setName(name);
+        return newUser;
     }
 
-    public User addFriend(Integer userID, Integer friendID) throws InvalidUserIDException, NoChangesMadeException{
+    public User addFriend(String userID, String friendID) throws InvalidUserIDException, NoChangesMadeException{
         return getUserByID(userDao.addFriend(userID, friendID));
     }
 
-    public List<Game> getGamesByUserID(Integer userID) throws InvalidUserIDException {
+    public List<Game> getGamesByUserID(String userID) throws InvalidUserIDException {
         return gameDao.getGamesByUserID(userID);
     }
 
-    public User getUserByID(Integer userID) throws InvalidUserIDException {
+    public User getUserByID(String userID) throws InvalidUserIDException {
         User partialUser = userDao.getUserByID(userID);
         List<Game> userGames = gameDao.getGamesByUserID(userID);
         partialUser.setLibrary(userGames);
@@ -66,7 +69,7 @@ public class BacklogService {
         throw new UnsupportedOperationException();
     }
 
-    public User getUserGamesByGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public User getUserGamesByGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         User user = getUserByID(userID);
         List<Game> genreGames = gameDao.getUserGamesInGenre(userID, genre);
 
@@ -79,7 +82,7 @@ public class BacklogService {
         return user;
     }
 
-    public User sortUserGamesByHoursPlayed(Integer userID) throws NoGamesFoundException, InvalidUserIDException {
+    public User sortUserGamesByHoursPlayed(String userID) throws NoGamesFoundException, InvalidUserIDException {
         User user = getUserByID(userID);
         List<Game> games = user.getLibrary();
         Comparator<Game> gameComparator = Comparator.comparing(Game::getHoursPlayed);
@@ -88,7 +91,7 @@ public class BacklogService {
         return user;
     }
 
-    public User getUserGamesUnderHoursPlayed(Integer userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
+    public User getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
         User user = getUserByID(userID);
         List<Game> playTimeGames = gameDao.getUserGamesUnderHoursPlayed(userID, hoursPlayed);
 
@@ -99,7 +102,7 @@ public class BacklogService {
         return user;
     }
 
-    public Game getLeastPlayedGameInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public Game getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         List<Game> leastPlayedGenreGames = gameDao.getLeastPlayedGameInGenre(userID, genre);
         if (leastPlayedGenreGames.size() == 0) {
             throw new NoGamesFoundException("No eligible uncompleted games found owned by user " + userID);
@@ -108,7 +111,7 @@ public class BacklogService {
         }
     }
 
-    public String changeCompletedStatus(Integer userID, Integer gameID) throws NoGamesFoundException {
+    public String changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {
         Game game = gameDao.changeCompletedStatus(userID, gameID);
         String gameStatus = "";
         if (game.isCompleted()) {
@@ -119,7 +122,7 @@ public class BacklogService {
         return game.getName() + "'s status has been changed to " + gameStatus + " for user " + userID;
     }
 
-    public Game pickRandomGame(Integer userID) throws NoGamesFoundException, InvalidUserIDException {
+    public Game pickRandomGame(String userID) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -130,7 +133,7 @@ public class BacklogService {
         return library.get(rand.nextInt(library.size()));
     }
 
-    public Game pickRandomGameInGenre(Integer userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+    public Game pickRandomGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }

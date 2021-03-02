@@ -23,7 +23,9 @@ public class UserPostgresDao implements UserDao {
 
 
     @Override
-    public int addUser(Integer userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+    public String addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+        System.out.println("userID = " + userID);
+        System.out.println("name = " + name);
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -45,7 +47,7 @@ public class UserPostgresDao implements UserDao {
     }
 
     @Override
-    public User getUserByID(Integer userID) throws InvalidUserIDException {
+    public User getUserByID(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -67,7 +69,7 @@ public class UserPostgresDao implements UserDao {
     }
 
     @Override
-    public int addFriend(Integer userID, Integer friendID) throws InvalidUserIDException, NoChangesMadeException {
+    public String addFriend(String userID, String friendID) throws InvalidUserIDException, NoChangesMadeException {
         if (userID == null || friendID == null) {
             throw new InvalidUserIDException("User IDs cannot be null");
         }
@@ -91,7 +93,7 @@ public class UserPostgresDao implements UserDao {
     }
 
     @Override
-    public List<User> getUserFriends(Integer userID) throws InvalidUserIDException {
+    public List<User> getUserFriends(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }

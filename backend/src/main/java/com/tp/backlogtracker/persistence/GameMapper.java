@@ -12,7 +12,7 @@ class GameMapper implements RowMapper<Game> {
     public Game mapRow(ResultSet resultSet, int i) throws SQLException {
         Game mappedGame = new Game();
 
-        mappedGame.setGameID(resultSet.getInt("gameID"));
+        mappedGame.setGameID(resultSet.getString("gameID"));
         mappedGame.setName(resultSet.getString("gameName"));
         mappedGame.setUserName(resultSet.getString("userName"));
         mappedGame.setHoursPlayed(resultSet.getDouble("hoursPlayed"));

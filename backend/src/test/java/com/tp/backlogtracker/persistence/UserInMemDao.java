@@ -23,14 +23,14 @@ public class UserInMemDao implements UserDao {
     JdbcTemplate template;
 
     List<User> allUsers = new ArrayList<>();
-    Map<Integer, List<Integer>> allFriends = new HashMap<>();
+    Map<String, List<String>> allFriends = new HashMap<>();
 
     public UserInMemDao() {
         allUsers.clear();
     }
 
     @Override
-    public int addUser(Integer userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+    public String addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -50,7 +50,7 @@ public class UserInMemDao implements UserDao {
     }
 
     @Override
-    public User getUserByID(Integer userID) throws InvalidUserIDException {
+    public User getUserByID(String userID) throws InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -72,20 +72,20 @@ public class UserInMemDao implements UserDao {
     }
 
     @Override
-    public int addFriend(Integer userID, Integer friendID) throws InvalidUserIDException, NoChangesMadeException {
+    public String addFriend(String userID, String friendID) throws InvalidUserIDException, NoChangesMadeException {
         if (userID == null || friendID == null) {
             throw new InvalidUserIDException("User IDs cannot be null");
         }
         if (userID.equals(friendID)) {
             throw new InvalidUserIDException("Users cannot be friends with themselves");
         }
-        List<Integer> friends = allFriends.getOrDefault(userID, new ArrayList<>());
+        List<String> friends = allFriends.getOrDefault(userID, new ArrayList<>());
         if (friends.contains(friendID)) {
             throw new NoChangesMadeException("No changes made");
         } else {
             friends.add(friendID);
             allFriends.put(userID, friends);
-            List<Integer> friends2 = allFriends.getOrDefault(friendID, new ArrayList<>());
+            List<String> friends2 = allFriends.getOrDefault(friendID, new ArrayList<>());
             friends2.add(userID);
             allFriends.put(friendID, friends2);
             return friendID;
@@ -93,7 +93,7 @@ public class UserInMemDao implements UserDao {
     }
 
     @Override
-    public List<User> getUserFriends(Integer userID) throws InvalidUserIDException {
+    public List<User> getUserFriends(String userID) throws InvalidUserIDException {
         return null;
     }
 }
