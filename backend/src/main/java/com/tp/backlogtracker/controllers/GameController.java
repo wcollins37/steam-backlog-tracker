@@ -13,12 +13,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 @RestController
 @RequestMapping("/api")
 public class GameController {
 
     @Autowired
     BacklogService service;
+
+    @GetMapping("/steam/library/{userID}")
+    public ResponseEntity retrieveSteamUserLibrary(@PathVariable String userID) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamid="+userID+"&include_appinfo=true&format=json")).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(response.body());
+    }
 
     @GetMapping("/pick/{genre}")
     public ResponseEntity getBacklogGameInGenre(@RequestBody User user, @PathVariable String genre) {

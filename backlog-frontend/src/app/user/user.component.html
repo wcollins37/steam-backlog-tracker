@@ -1,2 +1,3 @@
-<p>{{user.name}}</p>
-<p>{{user.userID}}</p>
+<p>{{errorMessage}}</p>
+<p *ngIf="user != null && user != undefined">{{user.name}}</p>
+<p *ngIf="user != null && user != undefined">{{user.userID}}</p>

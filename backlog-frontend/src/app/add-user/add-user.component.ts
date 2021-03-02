@@ -20,12 +20,13 @@ export class AddUserComponent implements OnInit {
 
   addUserByID() {
     this.libService.retrieveSteamUserInfo(this.userID).subscribe(x => {
-      console.log(1);
+      if (x.response.players.length === 0) {
+        this.router.navigate(["user"], {queryParams: {id: "-1"}});
+      }
       this.name = x.response.players[0].personaname;
       let toAdd : User = {userID: this.userID, name: this.name};
       console.log(toAdd);
       this.libService.addUser(toAdd).subscribe((_) => {
-        console.log(2);
         this.router.navigate(["user"], {queryParams: {id: toAdd.userID}});
       });
     });

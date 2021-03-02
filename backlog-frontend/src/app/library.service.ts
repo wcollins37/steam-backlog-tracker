@@ -33,7 +33,7 @@ export class LibraryService {
   }
 
   retrieveSteamUserInfo(userID : string) : Observable<SteamUserInfo> {
-    return this.http.get<SteamUserInfo>(this.baseURL + "/test")
+    return this.http.get<SteamUserInfo>(this.baseURL + "/steam/userinfo/" + userID)
     .pipe(
       tap(x => console.log(x)),
       catchError(err => {
@@ -44,7 +44,12 @@ export class LibraryService {
   }
 
   addUser(toAdd : User) : Observable<User> {
-    console.log("User = " + toAdd.name);
-    return this.http.post<User>(this.baseURL + "/user/add", toAdd, this.httpOptions);
+    return this.http.post<User>(this.baseURL + "/user/add", toAdd, this.httpOptions)
+    .pipe(
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
   }
 }

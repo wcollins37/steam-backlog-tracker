@@ -11,6 +11,7 @@ import { User } from '../User';
 export class UserComponent implements OnInit {
 
   user : User;
+  errorMessage : String = "";
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
 
@@ -19,7 +20,12 @@ export class UserComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       id = params['id'];
     });
-    this.libService.getUserByID(id).subscribe(user => {this.user = user;});
+    this.libService.getUserByID(id).subscribe(user => {
+      if (user === null) {
+        this.errorMessage = "User not found";
+      }
+      console.log(this.errorMessage);
+      this.user = user;});
   }
 
 }

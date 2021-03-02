@@ -25,10 +25,10 @@ public class UserController {
     @Autowired
     BacklogService service;
 
-    @GetMapping("/test")
-    public ResponseEntity testSteam() {
+    @GetMapping("/steam/userinfo/{userID}")
+    public ResponseEntity retrieveSteamUserInfo(@PathVariable String userID) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamids=76561198022304257&format=json")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamids="+userID+"&format=json")).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
