@@ -7,6 +7,7 @@ import {tap, catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
 import { UserComponent } from './user/user.component';
 import { SteamUserInfo } from './SteamUserInfo';
+import { SteamUserLibrary } from './SteamUserLibrary';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,6 @@ export class LibraryService {
   getUserByID(userID : number) : Observable<User>{
     return this.http.get<User>(this.baseURL + "/user/" + userID)
     .pipe(
-      tap(x => console.log(x)),
       catchError(err => {
         console.log(err);
         let empty = null;
@@ -35,7 +35,6 @@ export class LibraryService {
   retrieveSteamUserInfo(userID : string) : Observable<SteamUserInfo> {
     return this.http.get<SteamUserInfo>(this.baseURL + "/steam/userinfo/" + userID)
     .pipe(
-      tap(x => console.log(x)),
       catchError(err => {
         console.log(err);
         return of(null);
@@ -45,6 +44,16 @@ export class LibraryService {
 
   addUser(toAdd : User) : Observable<User> {
     return this.http.post<User>(this.baseURL + "/user/add", toAdd, this.httpOptions)
+    .pipe(
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  retrieveSteamUserLibrary(userID : string) : Observable<SteamUserLibrary> {
+    return this.http.get<SteamUserLibrary>(this.baseURL + "/steam/library/" + userID)
     .pipe(
       catchError(err => {
         console.log(err);

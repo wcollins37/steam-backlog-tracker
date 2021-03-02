@@ -1,8 +1,8 @@
 export interface Game {
-    gameID? : number;
+    gameID : number;
     name : string;
     hoursPlayed : number;
     userName : string;
-    genres : string[];
-    completed : boolean;
+    genres? : string[];
+    completed? : boolean;
 }

@@ -21,6 +21,7 @@ import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin()
 public class GameController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class GameController {
     @GetMapping("/steam/library/{userID}")
     public ResponseEntity retrieveSteamUserLibrary(@PathVariable String userID) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamid="+userID+"&include_appinfo=true&format=json")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamid=76561198022304257&include_appinfo=true&format=json")).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

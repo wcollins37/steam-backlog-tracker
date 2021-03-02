@@ -24,8 +24,6 @@ public class UserPostgresDao implements UserDao {
 
     @Override
     public String addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
-        System.out.println("userID = " + userID);
-        System.out.println("name = " + name);
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
