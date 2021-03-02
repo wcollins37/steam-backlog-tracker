@@ -40,6 +40,19 @@ public class GameController {
         return ResponseEntity.ok(response.body());
     }
 
+    @GetMapping("/steam/genre/{gameID}")
+    public ResponseEntity retrieveSteamGameGenres(@PathVariable String gameID) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://store.steampowered.com/api/appdetails?appids="+gameID+"&filters=genres")).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(response.body());
+    }
+
     @GetMapping("/pick/{genre}")
     public ResponseEntity getBacklogGameInGenre(@RequestBody User user, @PathVariable String genre) {
         Game toReturn = null;

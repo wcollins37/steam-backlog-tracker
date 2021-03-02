@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Game } from '../Game';
+import { Genre } from '../Genre';
 import { LibraryService } from '../library.service';
 import { User } from '../User';
 
@@ -35,13 +36,14 @@ export class UserComponent implements OnInit {
 
   showAllGames() : void {
     this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(x => {
-      console.log(x);
-      let gameLibrary : Game[] = [];
+      this.user.library = [];
       for (let game of x.response.games) {
-        let newGame : Game = {gameID: game.appid, name: game.name, hoursPlayed: game.playtime_forever / 60.0, userName: this.user.name};
-        gameLibrary.push(newGame);
+        let newGame : Game = {gameID: game.appid.toString(), name: game.name, hoursPlayed: game.playtime_forever / 60.0, userName: this.user.name};
+        console.log(newGame);
+        this.libService.retrieveSteamGameGenres(newGame).subscribe(y => {
+
+        })
       }
-      console.log(gameLibrary);
     });
   }
 

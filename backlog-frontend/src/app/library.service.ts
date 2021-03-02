@@ -8,6 +8,7 @@ import {of} from 'rxjs';
 import { UserComponent } from './user/user.component';
 import { SteamUserInfo } from './SteamUserInfo';
 import { SteamUserLibrary } from './SteamUserLibrary';
+import { Genre } from './Genre';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,13 @@ export class LibraryService {
         console.log(err);
         return of(null);
       })
+    );
+  }
+
+  retrieveSteamGameGenres(game : Game) : Observable<any> {
+    return this.http.get(this.baseURL + "/steam/genre/" + game.gameID)
+    .pipe(
+      tap(x => {console.log(x)})
     );
   }
 }

@@ -1,8 +1,10 @@
+import {Genre} from './Genre';
+
 export interface Game {
-    gameID : number;
+    gameID : string;
     name : string;
     hoursPlayed : number;
     userName : string;
-    genres? : string[];
+    genres? : Genre[];
     completed? : boolean;
 }
