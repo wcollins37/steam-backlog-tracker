@@ -424,33 +424,28 @@ class BacklogServiceTest {
 
     @Test
     public void testChangeCompletedStatusGoldenPath() {
-        String status = null;
+        Game status = null;
         try {
-            status = toTest.changeCompletedStatus("1","1");
-        } catch (NoGamesFoundException ex) {
+            status = toTest.changeCompletedStatus(toTest.getUserByID("1").getLibrary().get(0));
+        } catch (NoGamesFoundException | InvalidUserIDException ex) {
             fail();
         }
         assertEquals("testGame's status has been changed to uncompleted for user 1", status);
 
         try {
-            status = toTest.changeCompletedStatus("1","1");
-        } catch (NoGamesFoundException ex) {
+            status = toTest.changeCompletedStatus(toTest.getUserByID("1").getLibrary().get(0));
+        } catch (NoGamesFoundException | InvalidUserIDException ex) {
             fail();
         }
         assertEquals("testGame's status has been changed to completed for user 1", status);
     }
 
     @Test
-    public void testChangeCompletedStatusNullUserID() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.changeCompletedStatus(null,"1"));
+    public void testChangeCompletedStatusNullGame() {
+        assertThrows(NoGamesFoundException.class, () -> toTest.changeCompletedStatus(null));
     }
 
-    @Test
-    public void testChangeCompletedStatusNullGameID() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.changeCompletedStatus("1",null));
-    }
-
-    @Test
+/*    @Test
     public void testChangeCompletedStatusNoUserFound() {
         assertThrows(NoGamesFoundException.class, () -> toTest.changeCompletedStatus("-1","1"));
     }
@@ -458,7 +453,7 @@ class BacklogServiceTest {
     @Test
     public void testChangeCompletedStatusNoGamesFound() {
         assertThrows(NoGamesFoundException.class, () -> toTest.changeCompletedStatus("1","-1"));
-    }
+    }*/
 
     @Test
     public void testPickRandomGameGoldenPath() {
@@ -477,12 +472,12 @@ class BacklogServiceTest {
     }
 
     @Test
-    public void testPickRandomeGameNullUserID() {
+    public void testPickRandomGameNullUserID() {
         assertThrows(InvalidUserIDException.class, () -> toTest.pickRandomGame(null));
     }
 
     @Test
-    public void testPickRandomeGameNoGamesFound() {
+    public void testPickRandomGameNoGamesFound() {
         assertThrows(NoGamesFoundException.class, () -> toTest.pickRandomGame("99"));
     }
 }

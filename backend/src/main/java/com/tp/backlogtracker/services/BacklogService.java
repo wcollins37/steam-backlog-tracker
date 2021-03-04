@@ -130,15 +130,15 @@ public class BacklogService {
         }
     }*/
 
-    public String changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {
-        Game game = gameDao.changeCompletedStatus(userID, gameID);
+    public Game changeCompletedStatus(Game game) throws NoGamesFoundException {
+        Game changedGame = gameDao.changeCompletedStatus(game.getUserID(), game.getGameID());
         String gameStatus = "";
-        if (game.isCompleted()) {
+        if (changedGame.isCompleted()) {
             gameStatus = "completed";
         } else {
             gameStatus = "uncompleted";
         }
-        return game.getName() + "'s status has been changed to " + gameStatus + " for user " + userID;
+        return changedGame;
     }
 
     public Game pickRandomGame(String userID) throws NoGamesFoundException, InvalidUserIDException {

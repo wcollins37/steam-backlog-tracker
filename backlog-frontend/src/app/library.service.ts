@@ -84,4 +84,11 @@ export class LibraryService {
       tap(x => console.log(x))
     );
   }
+
+  swapCompletedStatus(game : Game) : Observable<any> {
+    return this.http.put(this.baseURL + "/swapcompleted", game, this.httpOptions)
+    .pipe(
+      tap(x => {console.log(x)})
+    );
+  }
 }

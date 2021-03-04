@@ -106,10 +106,10 @@ public class GameController {
     }*/
 
     @PutMapping("/swapcompleted")
-    public ResponseEntity changeCompletedStatus(@RequestBody UserGameRequest request) {
-        String toReturn = null;
+    public ResponseEntity changeCompletedStatus(@RequestBody Game game) {
+        Game toReturn = null;
         try {
-            toReturn = service.changeCompletedStatus(request.getUserID(), request.getGameID());
+            toReturn = service.changeCompletedStatus(game);
         } catch (NoGamesFoundException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
