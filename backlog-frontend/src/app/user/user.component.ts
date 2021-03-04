@@ -27,11 +27,18 @@ export class UserComponent implements OnInit {
         this.errorMessage = "User not found";
       }
       this.user = user;
+      this.sortByName();
     });
   }
 
   sortByName() : void {
     this.user.library.sort((a, b) => (a.name > b.name ? 1 : -1));
+  }
+
+  sortByPlayTime() : void {
+    this.user.library.sort((a, b) => {
+      return a.hoursPlayed - b.hoursPlayed || (a.name > b.name ? 1 : -1);
+    });
   }
 
 }

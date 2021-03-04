@@ -1,6 +1,9 @@
 <p *ngIf="errorMessage != ''">{{errorMessage}}</p>
-<div class="controls">
+<div class="topbar">
     <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
-    <button (click)="sortByName()">Sort By Name</button>
+    <div class="controls">
+        <button (click)="sortByName()">Sort By Name</button>
+        <button (click)="sortByPlayTime()">Sort By Hours Played</button>
+    </div>
 </div>
 <app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>
