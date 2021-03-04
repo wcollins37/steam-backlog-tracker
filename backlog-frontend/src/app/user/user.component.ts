@@ -14,6 +14,7 @@ export class UserComponent implements OnInit {
 
   user : User;
   errorMessage : String = "";
+  @Input()displayedGames : String = "all";
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
 
@@ -41,6 +42,19 @@ export class UserComponent implements OnInit {
     this.user.library.sort((a, b) => {
       return a.hoursPlayed - b.hoursPlayed || (a.name > b.name ? 1 : -1);
     });
+  }
+
+  changeGamesDisplayed(val : string) {
+    this.displayedGames = val;
+    switch(this.displayedGames) {
+      case "all":
+        this.libService.getFullUserLibrary(this.user.userID).subscribe(x => {this.user.library = x; this.sortByName();});
+        break;
+      case "uncompleted":
+        // testing
+        this.user.library = [];
+        break;
+    }
   }
 
 }

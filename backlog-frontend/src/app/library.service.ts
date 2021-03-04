@@ -62,7 +62,7 @@ export class LibraryService {
         for (let game of x.response.games) {
           list.push({gameID: game.appid.toString(),
                     name: game.name, 
-                    hoursPlayed: game.playtime_forever / 60.0,
+                    hoursPlayed: Math.round(game.playtime_forever / 60.0 * 100) / 100,
                     userID: userID,
                     img: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_logo_url + ".jpg"});
         }
@@ -93,4 +93,14 @@ export class LibraryService {
       tap(x => {console.log(x)})
     );
   }
+
+  getFullUserLibrary(userID : string) : Observable<Game[]> {
+    return this.http.get<User>(this.baseURL + "/user/" + userID)
+    .pipe(
+      map(x => {
+        return x.library;
+      })
+    )
+  }
+
 }
