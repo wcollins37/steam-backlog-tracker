@@ -29,7 +29,7 @@ public class GameController {
     @GetMapping("/steam/library/{userID}")
     public ResponseEntity retrieveSteamUserLibrary(@PathVariable String userID) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamid=76561198022304257&include_appinfo=true&format=json")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamid="+userID+"&include_appinfo=true&format=json")).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -39,10 +39,10 @@ public class GameController {
         return ResponseEntity.ok(response.body());
     }
 
-    @GetMapping("/steam/genre/{gameID}")
-    public ResponseEntity retrieveSteamGameGenres(@PathVariable String gameID) {
+    @GetMapping("/steam/image/{gameID}")
+    public ResponseEntity retrieveSteamGameImage(@PathVariable String gameID, @RequestBody User user) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://store.steampowered.com/api/appdetails?key=F777B10EBCB73303DD6B5FC5FD76F321&appids="+gameID+"&filters=genres")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=F777B10EBCB73303DD6B5FC5FD76F321&steamid="+user.getUserID()+"&include_appinfo=true&format=json&input_json={appids: ["+gameID+"]}")).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

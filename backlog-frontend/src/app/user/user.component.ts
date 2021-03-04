@@ -27,6 +27,8 @@ export class UserComponent implements OnInit {
         this.errorMessage = "User not found";
       }
       this.user = user;
+      this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
+      this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
       this.sortByName();
     });
   }

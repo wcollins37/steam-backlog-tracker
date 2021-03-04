@@ -31,9 +31,10 @@ public class GamePostgresDao implements GameDao {
 
         // try adding to Games table
         try {
-            template.update("insert into \"Games\"(\"gameID\",\"name\") values (?, ?);",
+            template.update("insert into \"Games\"(\"gameID\",\"name\",\"image\") values (?, ?, ?);",
                     game.getGameID(),
-                    game.getName());
+                    game.getName(),
+                    game.getImg());
         } catch (DataAccessException ex) {
             throw new NoChangesMadeException("No changes made");
         }
@@ -73,7 +74,7 @@ public class GamePostgresDao implements GameDao {
 
         try {
         allUserGames = template.query(
-                "select ga.\"gameID\", ga.\"name\" as \"gameName\", ug.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
+                "select ga.\"gameID\", ga.\"name\" as \"gameName\",ga.\"image\" as \"gameImage\", ug.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                         "from \"Games\" as ga\n" +
                         "inner join \"UserGames\" as ug on ug.\"gameID\" = ga.\"gameID\"\n" +
                         "inner join \"Users\" as u on ug.\"userID\" = u.\"userID\"\n" +
@@ -146,7 +147,7 @@ public class GamePostgresDao implements GameDao {
 
         try {
             games = template.query(
-                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", ge.\"name\" as \"genreName\", u.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
+                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", ga.\"image\" as \"gameImage\", ge.\"name\" as \"genreName\", u.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                             "from \"Games\" as ga\n" +
                             "inner join \"GameGenres\" as gg on ga.\"gameID\" = gg.\"gameID\"\n" +
                             "inner join \"Genres\" as ge on gg.\"genreID\" = ge.\"genreID\"\n" +
@@ -206,7 +207,7 @@ public class GamePostgresDao implements GameDao {
             throw new NoGamesFoundException("No changes made");
         } else {
             swappedGame = template.queryForObject(
-                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", u.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
+                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", ga.\"image\" as \"gameImage\", u.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                             "from \"Games\" as ga\n" +
                             "inner join \"UserGames\" as ug on ug.\"gameID\" = ga.\"gameID\"\n" +
                             "inner join \"Users\" as u on ug.\"userID\" = u.\"userID\"\n" +

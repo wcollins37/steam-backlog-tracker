@@ -7,4 +7,5 @@ export interface Game {
     userID : string;
     genres? : Genre[];
     completed? : boolean;
+    img? : string;
 }

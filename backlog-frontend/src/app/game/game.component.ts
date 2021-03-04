@@ -14,6 +14,7 @@ export class GameComponent implements OnInit {
   constructor(private libService : LibraryService) { }
 
   ngOnInit(): void {
+    
   }
 
   changeCompleted() : void {

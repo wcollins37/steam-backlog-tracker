@@ -18,6 +18,7 @@ class GameMapper implements RowMapper<Game> {
         mappedGame.setUserID(resultSet.getString("userID"));
         mappedGame.setHoursPlayed(resultSet.getDouble("hoursPlayed"));
         mappedGame.setCompleted(resultSet.getBoolean("completed"));
+        mappedGame.setImg(resultSet.getString("gameImage"));
 
         return mappedGame;
     }

@@ -63,8 +63,10 @@ export class LibraryService {
           list.push({gameID: game.appid.toString(),
                     name: game.name, 
                     hoursPlayed: game.playtime_forever / 60.0,
-                    userID: userID});
+                    userID: userID,
+                    img: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_logo_url + ".jpg"});
         }
+        console.log(list);
         return list;
       })
     );

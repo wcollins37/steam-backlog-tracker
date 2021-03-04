@@ -10,6 +10,7 @@ public class Game {
     String userID;
     List<String> genres;
     boolean completed;
+    String img;
 
     public Game() {
 
@@ -61,5 +62,13 @@ public class Game {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

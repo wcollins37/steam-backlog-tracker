@@ -1,6 +1,9 @@
 <p *ngIf="errorMessage != ''">{{errorMessage}}</p>
 <div class="topbar">
     <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
+    <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
+    <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
+    <p *ngIf="user != null && user != undefined">{{user.percentCompleted}}% of your library has been completed</p>
     <div class="controls">
         <button (click)="sortByName()">Sort By Name</button>
         <button (click)="sortByPlayTime()">Sort By Hours Played</button>

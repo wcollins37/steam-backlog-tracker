@@ -22,8 +22,8 @@ public class BacklogService {
     Random rand = new Random();
 
     public void addGameFromSteam(Game game) throws NullGameException, InvalidGameIDException, NoChangesMadeException, InvalidUserIDException {
-        Game gameAdded = gameDao.addGame(game);
-        gameDao.addGameToUser(gameAdded);
+        gameDao.addGame(game);
+        gameDao.addGameToUser(game);
     }
 
     public void addManyGamesFromSteam(Game[] games) throws NullGameException, InvalidGameIDException, InvalidUserIDException {

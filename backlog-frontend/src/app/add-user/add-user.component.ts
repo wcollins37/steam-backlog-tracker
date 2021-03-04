@@ -13,8 +13,6 @@ export class AddUserComponent implements OnInit {
 
   @Input()userID : string;
   @Input()name : string;
-  steamLib : Game[];
-  gamesNotInDBLib : Game[];
 
   constructor(private libService : LibraryService, private router : Router) { }
 
@@ -33,10 +31,7 @@ export class AddUserComponent implements OnInit {
         console.log(toAdd);
         this.libService.addUser(toAdd).subscribe(added => {
           this.libService.retrieveSteamUserLibrary(added.userID).subscribe(addedLib => {
-            this.steamLib = addedLib;
             this.libService.addLibraryToDatabase(addedLib).subscribe((_) => {
-              this.gamesNotInDBLib = this.steamLib.filter(game => !addedLib.includes(game));
-              console.log("Games left out: " + this.gamesNotInDBLib);
               this.router.navigate(["user"], {queryParams: {id: this.userID}});
             })
           })
