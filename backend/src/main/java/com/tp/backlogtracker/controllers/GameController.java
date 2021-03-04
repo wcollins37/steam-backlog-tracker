@@ -1,7 +1,6 @@
 package com.tp.backlogtracker.controllers;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.Game;
 import com.tp.backlogtracker.models.User;
 import com.tp.backlogtracker.models.UserGameRequest;
@@ -43,7 +42,7 @@ public class GameController {
     @GetMapping("/steam/genre/{gameID}")
     public ResponseEntity retrieveSteamGameGenres(@PathVariable String gameID) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://store.steampowered.com/api/appdetails?appids="+gameID+"&filters=genres")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://store.steampowered.com/api/appdetails?key=F777B10EBCB73303DD6B5FC5FD76F321&appids="+gameID+"&filters=genres")).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -53,7 +52,27 @@ public class GameController {
         return ResponseEntity.ok(response.body());
     }
 
-    @GetMapping("/pick/{genre}")
+    @PostMapping("/game/add")
+    public ResponseEntity addGameFromSteam(@RequestBody Game game) {
+        try {
+            service.addGameFromSteam(game);
+        } catch (NullGameException | InvalidGameIDException | NoChangesMadeException | InvalidUserIDException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok("Game successfully added");
+    }
+
+    @PostMapping("/game/addmany")
+    public ResponseEntity addManyGamesFromSteam(@RequestBody Game[] games) {
+        try {
+            service.addManyGamesFromSteam(games);
+        } catch (NullGameException | InvalidGameIDException | InvalidUserIDException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(games);
+    }
+
+/*    @GetMapping("/pick/{genre}")
     public ResponseEntity getBacklogGameInGenre(@RequestBody User user, @PathVariable String genre) {
         Game toReturn = null;
         try {
@@ -62,7 +81,7 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return ResponseEntity.ok(toReturn);
-    }
+    }*/
 
     @GetMapping("/random")
     public ResponseEntity getRandomGameInLibrary(@RequestBody User user) {
@@ -75,7 +94,7 @@ public class GameController {
         return ResponseEntity.ok(toReturn);
     }
 
-    @GetMapping("/random/genre/{genre}")
+/*    @GetMapping("/random/genre/{genre}")
     public ResponseEntity getRandomGameInGenre(@RequestBody User user, @PathVariable String genre) {
         Game toReturn = null;
         try {
@@ -84,7 +103,7 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return ResponseEntity.ok(toReturn);
-    }
+    }*/
 
     @PutMapping("/swapcompleted")
     public ResponseEntity changeCompletedStatus(@RequestBody UserGameRequest request) {

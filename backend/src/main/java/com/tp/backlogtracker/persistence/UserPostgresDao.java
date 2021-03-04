@@ -1,5 +1,6 @@
 package com.tp.backlogtracker.persistence;
 
+import com.tp.backlogtracker.exceptions.InvalidGameIDException;
 import com.tp.backlogtracker.exceptions.InvalidUserIDException;
 import com.tp.backlogtracker.exceptions.InvalidUserNameException;
 import com.tp.backlogtracker.exceptions.NoChangesMadeException;
@@ -109,5 +110,24 @@ public class UserPostgresDao implements UserDao {
         return partialFriends;
     }
 
+    @Override
+    public boolean checkIfUserOwnsGame(String userID, String gameID) throws InvalidUserIDException, InvalidGameIDException {
+        if (userID == null || userID == "") {
+            throw new InvalidUserIDException("User ID cannot be null or empty");
+        }
+        if (gameID == null || gameID == "") {
+            throw new InvalidGameIDException("Game ID cannot be null or empty");
+        }
 
+        int count = 0;
+        try {
+            count = template.queryForObject("select count(*) from \"UserGames\" where \"userID\" = ? and \"gameID\" = ?;",
+                    new IntMapper("count"),
+                    userID,
+                    gameID);
+        } catch (DataAccessException ex) {
+            return false;
+        }
+        return count > 0;
+    }
 }

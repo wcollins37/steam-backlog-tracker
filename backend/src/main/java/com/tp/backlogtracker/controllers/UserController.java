@@ -1,9 +1,6 @@
 package com.tp.backlogtracker.controllers;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.InvalidUserNameException;
-import com.tp.backlogtracker.exceptions.NoChangesMadeException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.User;
 import com.tp.backlogtracker.services.BacklogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +57,17 @@ public class UserController {
         return ResponseEntity.ok(toReturn);
     }
 
+    @GetMapping("/user/{userID}/owns/{gameID}")
+    public ResponseEntity checkIfUserOwnsGame(@PathVariable String userID, @PathVariable String gameID) {
+        boolean toReturn = false;
+        try {
+            toReturn = service.checkIfUserOwnsGame(userID, gameID);
+        } catch (InvalidUserIDException | InvalidGameIDException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(toReturn);
+    }
+
     @GetMapping("/user/{userID}")
     public ResponseEntity getUserByID(@PathVariable String userID) {
         User toReturn = null;
@@ -82,7 +90,7 @@ public class UserController {
         return ResponseEntity.ok(toReturn);
     }*/
 
-    @GetMapping("/user/{userID}/genre/{genre}")
+/*    @GetMapping("/user/{userID}/genre/{genre}")
     public ResponseEntity getUserGamesByGenre(@PathVariable String userID, @PathVariable String genre) {
         User toReturn = null;
         try {
@@ -91,7 +99,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return ResponseEntity.ok(toReturn);
-    }
+    }*/
 
     @GetMapping("/user/{userID}/sort/hoursplayed")
     public ResponseEntity sortUserGamesByPlayTime(@PathVariable String userID) {

@@ -36,7 +36,7 @@ class UserPostgresDaoTest {
         template.update("insert into \"Games\" (\"gameID\",\"name\") values('1','testGame'),('2','testGame2'),('3','testGame3');\n" +
                 "insert into \"Genres\" (\"genreID\",\"name\") values('1','testGenre'),('2','testGenre2');\n" +
                 "insert into \"GameGenres\" (\"gameID\",\"genreID\") values('1','1'),('2','2'),('3','1');\n" +
-                "insert into \"UserGames\" (\"userID\",\"gameID\",\"completed\",\"playTime\") values('1','1','true','10 hours'),('1','2','false','20 hours'),('1','3','false','15 hours');");
+                "insert into \"UserGames\" (\"userID\",\"gameID\",\"completed\",\"playTime\") values('1','1','true','10'),('1','2','false','20'),('1','3','false','15');");
     }
 
     @Test
@@ -47,7 +47,7 @@ class UserPostgresDaoTest {
         } catch (InvalidUserIDException | InvalidUserNameException | NoChangesMadeException ex) {
             fail();
         }
-        assertEquals(3, user.getUserID());
+        assertEquals("3", user.getUserID());
         assertEquals("testAdd", user.getName());
     }
 
@@ -79,7 +79,7 @@ class UserPostgresDaoTest {
         } catch (InvalidUserIDException ex) {
             fail();
         }
-        assertEquals(1, user.getUserID());
+        assertEquals("1", user.getUserID());
         assertEquals("testUser", user.getName());
     }
 
@@ -101,7 +101,7 @@ class UserPostgresDaoTest {
         } catch (InvalidUserIDException | NoChangesMadeException ex) {
             fail();
         }
-        assertEquals(2, friend.getUserID());
+        assertEquals("2", friend.getUserID());
         assertEquals("noGames", friend.getName());
     }
 
@@ -149,7 +149,7 @@ class UserPostgresDaoTest {
         }
         assertEquals(1, friends.size());
         User newFriend = friends.get(0);
-        assertEquals(2, newFriend.getUserID());
+        assertEquals("2", newFriend.getUserID());
         assertEquals("noGames",newFriend.getName());
     }
 

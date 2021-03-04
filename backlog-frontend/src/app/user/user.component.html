@@ -1,3 +1,4 @@
 <p>{{errorMessage}}</p>
 <p *ngIf="user != null && user != undefined">{{user.name}}</p>
 <p *ngIf="user != null && user != undefined">{{user.userID}}</p>
+<app-library *ngIf="user != null && user != undefined" [games]="user.library"></app-library>

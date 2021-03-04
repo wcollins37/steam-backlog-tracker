@@ -1,9 +1,6 @@
 package com.tp.backlogtracker.services;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.InvalidUserNameException;
-import com.tp.backlogtracker.exceptions.NoChangesMadeException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.Game;
 import com.tp.backlogtracker.models.User;
 import com.tp.backlogtracker.persistence.GameDao;
@@ -24,6 +21,24 @@ public class BacklogService {
 
     Random rand = new Random();
 
+    public void addGameFromSteam(Game game) throws NullGameException, InvalidGameIDException, NoChangesMadeException, InvalidUserIDException {
+        Game gameAdded = gameDao.addGame(game);
+        gameDao.addGameToUser(gameAdded);
+    }
+
+    public void addManyGamesFromSteam(Game[] games) throws NullGameException, InvalidGameIDException, InvalidUserIDException {
+        for(Game game : games) {
+            try {
+                addGameFromSteam(game);
+            } catch (NoChangesMadeException ex) {
+                System.out.println(game.getName());
+            } catch (NullGameException | InvalidGameIDException | InvalidUserIDException ex) {
+                System.out.println(game.getName() + ": " + ex.getMessage());
+                throw ex;
+            }
+        }
+    }
+
     public User addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
         User newUser = new User();
         newUser.setUserID(userDao.addUser(userID, name));
@@ -33,6 +48,10 @@ public class BacklogService {
 
     public User addFriend(String userID, String friendID) throws InvalidUserIDException, NoChangesMadeException{
         return getUserByID(userDao.addFriend(userID, friendID));
+    }
+
+    public boolean checkIfUserOwnsGame(String userID, String gameID) throws InvalidUserIDException, InvalidGameIDException {
+        return userDao.checkIfUserOwnsGame(userID, gameID);
     }
 
     public List<Game> getGamesByUserID(String userID) throws InvalidUserIDException {
@@ -69,7 +88,7 @@ public class BacklogService {
         throw new UnsupportedOperationException();
     }
 
-    public User getUserGamesByGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+/*    public User getUserGamesByGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         User user = getUserByID(userID);
         List<Game> genreGames = gameDao.getUserGamesInGenre(userID, genre);
 
@@ -80,7 +99,7 @@ public class BacklogService {
 
         user.setLibrary(genreGames);
         return user;
-    }
+    }*/
 
     public User sortUserGamesByHoursPlayed(String userID) throws NoGamesFoundException, InvalidUserIDException {
         User user = getUserByID(userID);
@@ -102,14 +121,14 @@ public class BacklogService {
         return user;
     }
 
-    public Game getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+/*    public Game getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         List<Game> leastPlayedGenreGames = gameDao.getLeastPlayedGameInGenre(userID, genre);
         if (leastPlayedGenreGames.size() == 0) {
             throw new NoGamesFoundException("No eligible uncompleted games found owned by user " + userID);
         } else {
             return leastPlayedGenreGames.get(rand.nextInt(leastPlayedGenreGames.size()));
         }
-    }
+    }*/
 
     public String changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {
         Game game = gameDao.changeCompletedStatus(userID, gameID);
@@ -133,7 +152,7 @@ public class BacklogService {
         return library.get(rand.nextInt(library.size()));
     }
 
-    public Game pickRandomGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
+/*    public Game pickRandomGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -143,5 +162,5 @@ public class BacklogService {
                     + " games found in user's library");
         }
         return library.get(rand.nextInt(library.size()));
-    }
+    }*/
 }

@@ -26,25 +26,23 @@ export class UserComponent implements OnInit {
       if (user === null) {
         this.errorMessage = "User not found";
       }
-      console.log(this.errorMessage);
       this.user = user;
-      if (user != null && user != undefined) {
-        this.showAllGames();
-      }
+      console.log(this.user.library);
     });
   }
 
-  showAllGames() : void {
-    this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(x => {
-      this.user.library = [];
-      for (let game of x.response.games) {
-        let newGame : Game = {gameID: game.appid.toString(), name: game.name, hoursPlayed: game.playtime_forever / 60.0, userName: this.user.name};
-        console.log(newGame);
-        this.libService.retrieveSteamGameGenres(newGame).subscribe(y => {
-
-        })
-      }
-    });
-  }
+  // showAllGames() : void {
+  //   this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(x => {
+  //     this.user.library = [];
+  //     for (let game of x.response.games) {
+  //       let newGame : Game = {gameID: game.appid.toString(),
+  //                             name: game.name, 
+  //                             hoursPlayed: Math.round((game.playtime_forever / 60.0) * 100) / 100,
+  //                             userID: this.user.userID,
+  //                             genres: []};
+  //       this.user.library.push(newGame);
+  //     }
+  //   });
+  // }
 
 }

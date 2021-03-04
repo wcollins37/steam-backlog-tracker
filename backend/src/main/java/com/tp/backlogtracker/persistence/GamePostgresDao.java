@@ -1,7 +1,6 @@
 package com.tp.backlogtracker.persistence;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -22,11 +21,46 @@ public class GamePostgresDao implements GameDao {
     Random rand = new Random();
 
     @Override
-    public String addGame(String userID, Game game) {
-        // see if genre exists in Genres
-        // if not, add genre id and name to Genres
-        // add gameID and name to Games if it doesn't exist
-        throw new UnsupportedOperationException();
+    public Game addGame(Game game) throws NullGameException, InvalidGameIDException, NoChangesMadeException {
+        if (game == null) {
+            throw new NullGameException("Game cannot be null");
+        }
+        if (game.getGameID() == null || game.getGameID() == "") {
+            throw new InvalidGameIDException("Game ID cannot be empty or null");
+        }
+
+        // try adding to Games table
+        try {
+            template.update("insert into \"Games\"(\"gameID\",\"name\") values (?, ?);",
+                    game.getGameID(),
+                    game.getName());
+        } catch (DataAccessException ex) {
+            throw new NoChangesMadeException("No changes made");
+        }
+        return game;
+    }
+
+    @Override
+    public void addGameToUser(Game game) throws NullGameException, InvalidUserIDException, NoChangesMadeException {
+        if (game == null) {
+            throw new NullGameException("Game cannot be null");
+        }
+        if (game.getUserID() == null || game.getUserID() == "") {
+            throw new InvalidUserIDException("User ID cannot be empty or null");
+        }
+
+        int status;
+        try {
+            status = template.update("insert into \"UserGames\"(\"completed\", \"playTime\", \"userID\", \"gameID\") values ('false',?,?,?)",
+                    game.getHoursPlayed(),
+                    game.getUserID(),
+                    game.getGameID());
+        } catch (DataAccessException ex) {
+            throw new NoChangesMadeException("No changes made");
+        }
+        if (status < 1) {
+            throw new NoChangesMadeException("No changes made");
+        }
     }
 
     @Override
@@ -39,7 +73,7 @@ public class GamePostgresDao implements GameDao {
 
         try {
         allUserGames = template.query(
-                "select ga.\"gameID\", ga.\"name\" as \"gameName\", u.\"name\" as \"userName\", extract(epoch from ug.\"playTime\")/3600 as \"hoursPlayed\", ug.\"completed\"\n" +
+                "select ga.\"gameID\", ga.\"name\" as \"gameName\", ug.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                         "from \"Games\" as ga\n" +
                         "inner join \"UserGames\" as ug on ug.\"gameID\" = ga.\"gameID\"\n" +
                         "inner join \"Users\" as u on ug.\"userID\" = u.\"userID\"\n" +
@@ -73,7 +107,7 @@ public class GamePostgresDao implements GameDao {
         game.setGenres(genres);
     }
 
-    @Override
+/*    @Override
     public List<Game> getUserGamesInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
@@ -98,7 +132,7 @@ public class GamePostgresDao implements GameDao {
             throw new NoGamesFoundException("No " + genre + " games found in user's library");
         }
         return genreGames;
-    }
+    } */
 
     @Override
     public List<Game> getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
@@ -112,13 +146,13 @@ public class GamePostgresDao implements GameDao {
 
         try {
             games = template.query(
-                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", ge.\"name\" as \"genreName\", u.\"name\" as \"userName\", extract(epoch from ug.\"playTime\")/3600 as \"hoursPlayed\", ug.\"completed\"\n" +
+                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", ge.\"name\" as \"genreName\", u.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                             "from \"Games\" as ga\n" +
                             "inner join \"GameGenres\" as gg on ga.\"gameID\" = gg.\"gameID\"\n" +
                             "inner join \"Genres\" as ge on gg.\"genreID\" = ge.\"genreID\"\n" +
                             "inner join \"UserGames\" as ug on ug.\"gameID\" = ga.\"gameID\"\n" +
                             "inner join \"Users\" as u on ug.\"userID\" = u.\"userID\"\n" +
-                            "where ug.\"userID\" = ? and extract(epoch from ug.\"playTime\")/3600 < ?;",
+                            "where ug.\"userID\" = ? and ug.\"playTime\" < ?;",
                     new GameMapper(),
                     userID,
                     hoursPlayed);
@@ -134,7 +168,7 @@ public class GamePostgresDao implements GameDao {
         return games;
     }
 
-    @Override
+    /*@Override
     public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
@@ -159,7 +193,7 @@ public class GamePostgresDao implements GameDao {
             }
         }
         return toReturn;
-    }
+    }*/
 
     @Override
     public Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {
@@ -172,7 +206,7 @@ public class GamePostgresDao implements GameDao {
             throw new NoGamesFoundException("No changes made");
         } else {
             swappedGame = template.queryForObject(
-                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", u.\"name\" as \"userName\", extract(epoch from ug.\"playTime\")/3600 as \"hoursPlayed\", ug.\"completed\"\n" +
+                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", u.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                             "from \"Games\" as ga\n" +
                             "inner join \"UserGames\" as ug on ug.\"gameID\" = ga.\"gameID\"\n" +
                             "inner join \"Users\" as u on ug.\"userID\" = u.\"userID\"\n" +
@@ -195,7 +229,7 @@ public class GamePostgresDao implements GameDao {
 
         try {
             avgPlayTime = template.queryForObject(
-                    "select avg(extract(epoch from \"playTime\")/3600) as \"avgPlayTime\"\n" +
+                    "select avg(\"playTime\") as \"avgPlayTime\"\n" +
                             "from \"UserGames\"\n" +
                             "where \"userID\" = ?\n" +
                             "group by \"userID\";",

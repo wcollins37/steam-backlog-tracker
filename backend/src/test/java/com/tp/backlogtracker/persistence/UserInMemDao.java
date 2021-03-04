@@ -1,9 +1,6 @@
 package com.tp.backlogtracker.persistence;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.InvalidUserNameException;
-import com.tp.backlogtracker.exceptions.NoChangesMadeException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -95,5 +92,10 @@ public class UserInMemDao implements UserDao {
     @Override
     public List<User> getUserFriends(String userID) throws InvalidUserIDException {
         return null;
+    }
+
+    @Override
+    public boolean checkIfUserOwnsGame(String userID, String gameID) throws InvalidUserIDException, InvalidGameIDException {
+        return false;
     }
 }

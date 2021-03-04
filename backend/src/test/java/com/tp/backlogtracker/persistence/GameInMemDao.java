@@ -1,10 +1,10 @@
 package com.tp.backlogtracker.persistence;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +26,14 @@ public class GameInMemDao implements GameDao {
     }
 
     @Override
-    public String addGame(String userID, Game game) {
-        allGames.put(game, userID);
-        return userID;
+    public Game addGame(Game game) throws NullGameException, InvalidGameIDException, NoChangesMadeException {
+        allGames.put(game, game.getUserID());
+        return game;
+    }
+
+    @Override
+    public void addGameToUser(Game game) throws NullGameException, InvalidUserIDException, NoChangesMadeException {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -59,7 +64,7 @@ public class GameInMemDao implements GameDao {
 
     }
 
-    @Override
+/*    @Override
     public List<Game> getUserGamesInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         List<Game> games = getGamesByUserID(userID);
         List<Game> genreGames = new ArrayList<>();
@@ -77,7 +82,7 @@ public class GameInMemDao implements GameDao {
         }
 
         return genreGames;
-    }
+    }*/
 
     @Override
     public List<Game> getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException {
@@ -93,7 +98,7 @@ public class GameInMemDao implements GameDao {
         return playTimeGames;
     }
 
-    @Override
+/*    @Override
     public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
@@ -123,7 +128,7 @@ public class GameInMemDao implements GameDao {
         } else {
             return toReturn;
         }
-    }
+    }*/
 
     @Override
     public Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException {

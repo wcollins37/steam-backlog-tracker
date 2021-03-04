@@ -1,6 +1,7 @@
 package com.tp.backlogtracker.persistence;
 
 import com.tp.backlogtracker.models.Game;
+import com.tp.backlogtracker.models.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -14,7 +15,7 @@ class GameMapper implements RowMapper<Game> {
 
         mappedGame.setGameID(resultSet.getString("gameID"));
         mappedGame.setName(resultSet.getString("gameName"));
-        mappedGame.setUserName(resultSet.getString("userName"));
+        mappedGame.setUserID(resultSet.getString("userID"));
         mappedGame.setHoursPlayed(resultSet.getDouble("hoursPlayed"));
         mappedGame.setCompleted(resultSet.getBoolean("completed"));
 

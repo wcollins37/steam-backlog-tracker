@@ -7,7 +7,7 @@ public class Game {
     String gameID;
     String name;
     double hoursPlayed;
-    String userName;
+    String userID;
     List<String> genres;
     boolean completed;
 
@@ -39,12 +39,12 @@ public class Game {
         this.hoursPlayed = hoursPlayed;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public List<String> getGenres() {
