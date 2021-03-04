@@ -1,6 +1,8 @@
 <div class="game" (click)="changeCompleted()" [class.completed]="game.completed">
     <img [src]="game.img">
-    <p>{{game.name}}</p>
+    <div class="title">
+        <p>{{game.name}}</p>
+    </div>
     <p>{{game.hoursPlayed}} hours played</p>
     <p>{{game.completed}}</p>
 </div>

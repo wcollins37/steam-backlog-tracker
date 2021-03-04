@@ -1,7 +1,7 @@
 .game{
     display: inline-block;
     height: 200px;
-    width: 150px;
+    width: 250px;
     font-size: small;
     text-align: center;
     flex-wrap: wrap;
@@ -14,4 +14,7 @@
 }
 img{
     width: 100%;
+}
+.title{
+    height: 30px;
 }

@@ -22,7 +22,13 @@ public class BacklogService {
     Random rand = new Random();
 
     public void addGameFromSteam(Game game) throws NullGameException, InvalidGameIDException, NoChangesMadeException, InvalidUserIDException {
-        gameDao.addGame(game);
+        try {
+            gameDao.addGame(game);
+        } catch (NullGameException | InvalidGameIDException ex) {
+            throw ex;
+        } catch (NoChangesMadeException ex) {
+
+        }
         gameDao.addGameToUser(game);
     }
 
@@ -31,9 +37,7 @@ public class BacklogService {
             try {
                 addGameFromSteam(game);
             } catch (NoChangesMadeException ex) {
-                System.out.println(game.getName());
             } catch (NullGameException | InvalidGameIDException | InvalidUserIDException ex) {
-                System.out.println(game.getName() + ": " + ex.getMessage());
                 throw ex;
             }
         }
