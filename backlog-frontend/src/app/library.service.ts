@@ -62,7 +62,7 @@ export class LibraryService {
         for (let game of x.response.games) {
           list.push({gameID: game.appid.toString(),
                     name: game.name, 
-                    hoursPlayed: Math.round((game.playtime_forever / 60.0) * 100.0) / 100.0,
+                    hoursPlayed: game.playtime_forever / 60.0,
                     userID: userID});
         }
         return list;

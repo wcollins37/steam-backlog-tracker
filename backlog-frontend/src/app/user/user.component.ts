@@ -27,22 +27,11 @@ export class UserComponent implements OnInit {
         this.errorMessage = "User not found";
       }
       this.user = user;
-      console.log(this.user.library);
     });
   }
 
-  // showAllGames() : void {
-  //   this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(x => {
-  //     this.user.library = [];
-  //     for (let game of x.response.games) {
-  //       let newGame : Game = {gameID: game.appid.toString(),
-  //                             name: game.name, 
-  //                             hoursPlayed: Math.round((game.playtime_forever / 60.0) * 100) / 100,
-  //                             userID: this.user.userID,
-  //                             genres: []};
-  //       this.user.library.push(newGame);
-  //     }
-  //   });
-  // }
+  sortByName() : void {
+    this.user.library.sort((a, b) => (a.name > b.name ? 1 : -1));
+  }
 
 }
