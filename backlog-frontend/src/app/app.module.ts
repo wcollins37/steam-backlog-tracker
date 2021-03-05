@@ -11,6 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddUserComponent } from './add-user/add-user.component';
 import { DetailedGameComponent } from './detailed-game/detailed-game.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from '@angular/material/table';
+import { GameTableComponent } from './game-table/game-table.component';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -20,13 +24,17 @@ import { DetailedGameComponent } from './detailed-game/detailed-game.component';
     UserComponent,
     GetUserComponent,
     AddUserComponent,
-    DetailedGameComponent
+    DetailedGameComponent,
+    GameTableComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NoopAnimationsModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

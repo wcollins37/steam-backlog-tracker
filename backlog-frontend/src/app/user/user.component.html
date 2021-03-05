@@ -5,8 +5,6 @@
     <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
     <p *ngIf="user != null && user != undefined">{{user.percentCompleted}}% of your library has been completed</p>
     <div class="controls">
-        <button (click)="sortByName()">Sort By Name</button>
-        <button (click)="sortByPlayTime()">Sort By Hours Played</button>
         <div class="displayedGames">
             <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event)">
             <label for="all">All Games</label>
@@ -17,4 +15,22 @@
         <button (click)="getRandomGame()">Pick Random Game</button>
     </div>
 </div>
-<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>
+<!--<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>-->
+<table matSort (matSortChange)="sortData($event)">
+
+    <tr>
+        <th mat-sort-header="completed">Completed?</th>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="img">Logo</th>
+        <th mat-sort-header="hoursPlayed">Hours Played</th>
+    </tr>
+
+    <tr (click)="swapCompleted(game)" *ngFor="let game of sortedLibrary">
+        <td>{{game.completed}}</td>
+        <td>{{game.name}}</td>
+        <td><img [src]="game.img"></td>
+        <td>{{game.hoursPlayed}}</td>
+    </tr>
+
+</table>
+    

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Game } from '../Game';
 import { Genre } from '../Genre';
@@ -15,8 +16,8 @@ export class UserComponent implements OnInit {
   user : User;
   errorMessage : String = "";
   @Input()displayedGames : String = "all";
-  @Input()underHours : number;
-  showHourControls : boolean = false;
+  sortedLibrary : Game[];
+
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
 
@@ -32,18 +33,31 @@ export class UserComponent implements OnInit {
       this.user = user;
       this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
       this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
-      this.sortByName();
+      this.sortedLibrary = this.user.library;
     });
   }
 
-  sortByName() : void {
-    this.user.library.sort((a, b) => (a.name > b.name ? 1 : -1));
+  sortData(sort : Sort) {
+    const data = this.user.library.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedLibrary = data;
+      return;
+    }
+
+    this.sortedLibrary = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case "completed": 
+          return this.compare(a.completed, b.completed, isAsc) | this.compare(a.name.toLowerCase(), b.name.toLowerCase(), true);
+        case "name": return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
+        case "hoursPlayed": return this.compare(a.hoursPlayed, b.hoursPlayed, isAsc);
+        default: return 0;
+      }
+    })
   }
 
-  sortByPlayTime() : void {
-    this.user.library.sort((a, b) => {
-      return a.hoursPlayed - b.hoursPlayed || (a.name > b.name ? 1 : -1);
-    });
+  compare(a: number | string | boolean, b: number | string | boolean, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   getRandomGame() : void {
@@ -60,16 +74,26 @@ export class UserComponent implements OnInit {
       case "all":
         this.libService.getFullUserLibrary(this.user.userID).subscribe(x => {
           this.user.library = x;
-          this.sortByName();
         });
         break;
       case "uncompleted":
         this.libService.getUncompletedGames(this.user.userID).subscribe(x => {
           this.user.library = x;
-          this.sortByName();
         })
         break;
     }
+  }
+
+  changeCompleted(game : Game) : void {
+    this.libService.swapCompletedStatus(game).subscribe(x => {
+      game = x;
+    })
+  }
+
+  swapCompleted(game) {
+    this.libService.swapCompletedStatus(game).subscribe(x => {
+      game = x;
+    })
   }
 
 }
