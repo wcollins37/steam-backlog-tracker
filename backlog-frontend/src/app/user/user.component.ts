@@ -15,6 +15,8 @@ export class UserComponent implements OnInit {
   user : User;
   errorMessage : String = "";
   @Input()displayedGames : String = "all";
+  @Input()underHours : number;
+  showHourControls : boolean = false;
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
 
@@ -44,17 +46,12 @@ export class UserComponent implements OnInit {
     });
   }
 
-  changeGamesDisplayed(val : string) {
-    this.displayedGames = val;
-    switch(this.displayedGames) {
-      case "all":
-        this.libService.getFullUserLibrary(this.user.userID).subscribe(x => {this.user.library = x; this.sortByName();});
-        break;
-      case "uncompleted":
-        // testing
-        this.user.library = [];
-        break;
-    }
+  getRandomGame() : void {
+    this.libService.getRandomGame(this.user.userID).subscribe(x => {
+      let formattedTitle : string = x.name.split(' ').join('_');
+      window.location.href = "https://store.steampowered.com/app/" + x.gameID + "/" + formattedTitle;
+    });
+    
   }
 
 }

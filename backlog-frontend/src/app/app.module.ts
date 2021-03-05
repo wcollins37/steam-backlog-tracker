@@ -10,6 +10,7 @@ import { GetUserComponent } from './get-user/get-user.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddUserComponent } from './add-user/add-user.component';
+import { DetailedGameComponent } from './detailed-game/detailed-game.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AddUserComponent } from './add-user/add-user.component';
     LibraryComponent,
     UserComponent,
     GetUserComponent,
-    AddUserComponent
+    AddUserComponent,
+    DetailedGameComponent
   ],
   imports: [
     BrowserModule,

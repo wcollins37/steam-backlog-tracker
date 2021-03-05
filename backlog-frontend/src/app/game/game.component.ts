@@ -14,7 +14,9 @@ export class GameComponent implements OnInit {
   constructor(private libService : LibraryService) { }
 
   ngOnInit(): void {
-    
+    if (this.game.img === "http://media.steampowered.com/steamcommunity/public/images/apps/" + this.game.gameID + "/.jpg") {
+      this.game.img = "./assets/empty.png";
+    }
   }
 
   changeCompleted() : void {

@@ -9,6 +9,7 @@ import { UserComponent } from './user/user.component';
 import { SteamUserInfo } from './SteamUserInfo';
 import { SteamUserLibrary } from './SteamUserLibrary';
 import { Genre } from './Genre';
+import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -101,6 +102,10 @@ export class LibraryService {
         return x.library;
       })
     )
+  }
+
+  getRandomGame(userID : string) : Observable<Game> {
+    return this.http.get<Game>(this.baseURL + "/random/" + userID);
   }
 
 }

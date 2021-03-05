@@ -7,12 +7,7 @@
     <div class="controls">
         <button (click)="sortByName()">Sort By Name</button>
         <button (click)="sortByPlayTime()">Sort By Hours Played</button>
-        <label for="select-options">Display </label>
-
-        <select name="select-options" (change)="changeGamesDisplayed($event.target.value)">
-            <option value="all">all games</option>
-            <option value="uncompleted">uncompleted games</option>
-        </select>
+        <button (click)="getRandomGame()">Pick Random Game</button>
     </div>
 </div>
 <app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>

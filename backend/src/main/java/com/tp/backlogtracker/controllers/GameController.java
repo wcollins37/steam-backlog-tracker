@@ -83,11 +83,11 @@ public class GameController {
         return ResponseEntity.ok(toReturn);
     }*/
 
-    @GetMapping("/random")
-    public ResponseEntity getRandomGameInLibrary(@RequestBody User user) {
+    @GetMapping("/random/{userID}")
+    public ResponseEntity getRandomGameInLibrary(@PathVariable String userID) {
         Game toReturn = null;
         try {
-            toReturn = service.pickRandomGame(user.getUserID());
+            toReturn = service.pickRandomGame(userID);
         } catch (NoGamesFoundException | InvalidUserIDException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
