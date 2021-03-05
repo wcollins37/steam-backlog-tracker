@@ -167,4 +167,8 @@ public class BacklogService {
         }
         return library.get(rand.nextInt(library.size()));
     }*/
+
+    public List<Game> getUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException {
+        return gameDao.getUncompletedGames(userID);
+    }
 }

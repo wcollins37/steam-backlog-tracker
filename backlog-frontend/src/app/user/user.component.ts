@@ -54,4 +54,22 @@ export class UserComponent implements OnInit {
     
   }
 
+  changeDisplayedGames(e) : void {
+    console.log(e.target.value);
+    switch(e.target.value) {
+      case "all":
+        this.libService.getFullUserLibrary(this.user.userID).subscribe(x => {
+          this.user.library = x;
+          this.sortByName();
+        });
+        break;
+      case "uncompleted":
+        this.libService.getUncompletedGames(this.user.userID).subscribe(x => {
+          this.user.library = x;
+          this.sortByName();
+        })
+        break;
+    }
+  }
+
 }

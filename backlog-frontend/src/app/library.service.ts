@@ -108,4 +108,7 @@ export class LibraryService {
     return this.http.get<Game>(this.baseURL + "/random/" + userID);
   }
 
+  getUncompletedGames(userID : string) : Observable<Game[]> {
+    return this.http.get<Game[]>(this.baseURL + "/uncompleted/" + userID);
+  }
 }

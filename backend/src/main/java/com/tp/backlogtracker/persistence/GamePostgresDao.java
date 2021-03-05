@@ -169,6 +169,28 @@ public class GamePostgresDao implements GameDao {
         return games;
     }
 
+    @Override
+    public List<Game> getUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException {
+        if (userID == null) {
+            throw new InvalidUserIDException("User ID cannot be null");
+        }
+        List<Game> games = new ArrayList<>();
+
+        try {
+            games = template.query(
+                    "select ga.\"gameID\", ga.\"name\" as \"gameName\", ga.\"image\" as \"gameImage\", ug.\"userID\" as \"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
+                            "from \"Games\" as ga\n" +
+                            "inner join \"UserGames\" as ug on ug.\"gameID\" = ga.\"gameID\"\n" +
+                            "where ug.\"userID\" = ? and ug.\"completed\" = false;",
+                    new GameMapper(),
+                    userID);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new NoGamesFoundException("No games found");
+        }
+
+        return games;
+    }
+
     /*@Override
     public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {

@@ -7,6 +7,13 @@
     <div class="controls">
         <button (click)="sortByName()">Sort By Name</button>
         <button (click)="sortByPlayTime()">Sort By Hours Played</button>
+        <div class="displayedGames">
+            <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event)">
+            <label for="all">All Games</label>
+            <br/>
+            <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event)">
+            <label for="uncompleted">Uncompleted Games</label>
+        </div>
         <button (click)="getRandomGame()">Pick Random Game</button>
     </div>
 </div>

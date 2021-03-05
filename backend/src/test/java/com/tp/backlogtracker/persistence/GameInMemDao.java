@@ -98,7 +98,12 @@ public class GameInMemDao implements GameDao {
         return playTimeGames;
     }
 
-/*    @Override
+    @Override
+    public List<Game> getUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException {
+        return null;
+    }
+
+    /*    @Override
     public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");

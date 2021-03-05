@@ -17,6 +17,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -111,6 +113,17 @@ public class GameController {
         try {
             toReturn = service.changeCompletedStatus(game);
         } catch (NoGamesFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(toReturn);
+    }
+
+    @GetMapping("/uncompleted/{userID}")
+    public ResponseEntity getUncompletedGames(@PathVariable String userID) {
+        List<Game> toReturn = new ArrayList<>();
+        try {
+            toReturn = service.getUncompletedGames(userID);
+        } catch (InvalidUserIDException | NoGamesFoundException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return ResponseEntity.ok(toReturn);
