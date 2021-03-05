@@ -16,7 +16,7 @@
     </div>
 </div>
 <!--<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>-->
-<table matSort (matSortChange)="sortData($event)">
+<table matSort class="gameTable" (matSortChange)="sortData($event)">
 
     <tr>
         <th mat-sort-header="completed">Completed?</th>
@@ -25,11 +25,13 @@
         <th mat-sort-header="hoursPlayed">Hours Played</th>
     </tr>
 
-    <tr (click)="swapCompleted(game)" *ngFor="let game of sortedLibrary">
-        <td>{{game.completed}}</td>
-        <td>{{game.name}}</td>
-        <td><img [src]="game.img"></td>
-        <td>{{game.hoursPlayed}}</td>
+    <tr (click)="swapCompleted(game)" *ngFor="let game of user.library">
+        <td class="cell"><img class="completed-img" [src]="game.completed ?
+            '../assets/check.png' :
+            '../assets/empty.png'"></td>
+        <td class="cell">{{game.name}}</td>
+        <td class="cell"><img class="cell-img" [src]="game.img"></td>
+        <td class="cell">{{game.hoursPlayed}}</td>
     </tr>
 
 </table>

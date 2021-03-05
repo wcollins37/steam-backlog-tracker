@@ -17,6 +17,7 @@ export class UserComponent implements OnInit {
   errorMessage : String = "";
   @Input()displayedGames : String = "all";
   sortedLibrary : Game[];
+  lastSort : Sort = {active: "", direction: "asc"};
 
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
@@ -40,12 +41,13 @@ export class UserComponent implements OnInit {
   sortData(sort : Sort) {
     const data = this.user.library.slice();
     if (!sort.active || sort.direction === '') {
-      this.sortedLibrary = data;
+      this.user.library = data;
       return;
     }
 
-    this.sortedLibrary = data.sort((a, b) => {
+    this.user.library = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
+      this.lastSort = sort;
       switch (sort.active) {
         case "completed": 
           return this.compare(a.completed, b.completed, isAsc) | this.compare(a.name.toLowerCase(), b.name.toLowerCase(), true);
@@ -92,7 +94,10 @@ export class UserComponent implements OnInit {
 
   swapCompleted(game) {
     this.libService.swapCompletedStatus(game).subscribe(x => {
-      game = x;
+      this.libService.getFullUserLibrary(this.user.userID).subscribe(y => {
+        this.user.library = y;
+        this.sortData(this.lastSort);
+      })
     })
   }
 
