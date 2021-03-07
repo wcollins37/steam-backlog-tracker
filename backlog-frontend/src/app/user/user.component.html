@@ -25,11 +25,11 @@
         <th mat-sort-header="hoursPlayed">Hours Played</th>
     </tr>
 
-    <tr (click)="swapCompleted(game)" *ngFor="let game of user.library">
-        <td class="cell"><img class="completed-img" [src]="game.completed ?
+    <tr *ngFor="let game of user.library">
+        <td class="cell" (click)="swapCompleted(game)"><img class="completed-img" [src]="game.completed ?
             '../assets/check.png' :
             '../assets/empty.png'"></td>
-        <td class="cell">{{game.name}}</td>
+        <td class="cell" (click)="navigateToStore(game)">{{game.name}}</td>
         <td class="cell"><img class="cell-img" [src]="game.img"></td>
         <td class="cell">{{game.hoursPlayed}}</td>
     </tr>

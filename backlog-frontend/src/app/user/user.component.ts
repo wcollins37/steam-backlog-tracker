@@ -64,8 +64,7 @@ export class UserComponent implements OnInit {
 
   getRandomGame() : void {
     this.libService.getRandomGame(this.user.userID).subscribe(x => {
-      let formattedTitle : string = x.name.split(' ').join('_');
-      window.location.href = "https://store.steampowered.com/app/" + x.gameID + "/" + formattedTitle;
+      this.navigateToStore(x);
     });
     
   }
@@ -99,6 +98,11 @@ export class UserComponent implements OnInit {
         this.sortData(this.lastSort);
       })
     })
+  }
+
+  navigateToStore(game : Game) {
+    let formattedTitle : string = game.name.split(' ').join('_');
+    window.location.href = "https://store.steampowered.com/app/" + game.gameID + "/" + formattedTitle;
   }
 
 }
