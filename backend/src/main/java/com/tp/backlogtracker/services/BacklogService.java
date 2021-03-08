@@ -66,10 +66,11 @@ public class BacklogService {
         User partialUser = userDao.getUserByID(userID);
         List<Game> userGames = gameDao.getGamesByUserID(userID);
         partialUser.setLibrary(userGames);
-        partialUser.setAvgPlayTime(gameDao.getUserAveragePlayTime(userID));
+        partialUser.setAvgPlayTime((double) Math.round(gameDao.getUserAveragePlayTime(userID) * 100) / 100);
         partialUser.setNumUncompletedGames(gameDao.getNumOfUncompletedGames(userID));
         if (partialUser.getLibrary().size() != 0) {
-            partialUser.setPercentCompleted(((double) (partialUser.getLibrary().size() - partialUser.getNumUncompletedGames())) / partialUser.getLibrary().size());
+            double percent = (partialUser.getLibrary().size() - partialUser.getNumUncompletedGames()) / (double) partialUser.getLibrary().size();
+            partialUser.setPercentCompleted((double) Math.round(percent * 100) / 100);
         } else {
             partialUser.setPercentCompleted(0.0);
         }
@@ -170,5 +171,27 @@ public class BacklogService {
 
     public List<Game> getUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException {
         return gameDao.getUncompletedGames(userID);
+    }
+
+    public User updateUser(User user) throws InvalidUserIDException, InvalidUserNameException, InvalidGameIDException {
+        int updateStatus = this.userDao.updateUserInfo(user.getUserID(), user.getName());
+        if (updateStatus == 0) {
+            try {
+                this.userDao.addUser(user.getUserID(), user.getName());
+            } catch (NoChangesMadeException ex) {
+                System.out.println("User already in database");
+            }
+        }
+        for (Game game : user.getLibrary()) {
+            int gameStatus = this.gameDao.updateHoursPlayed(user.getUserID(), game.getGameID(), game.getHoursPlayed());
+            if (gameStatus == 0) {
+                try {
+                    addGameFromSteam(game);
+                } catch (NullGameException | NoChangesMadeException ex) {
+                    System.out.println("Game not added");
+                }
+            }
+        }
+        return getUserByID(user.getUserID());
     }
 }

@@ -122,4 +122,15 @@ public class UserController {
         }
         return ResponseEntity.ok(toReturn);
     }
+
+    @PutMapping("user/update")
+    public ResponseEntity updateUser(@RequestBody User user) {
+        User toReturn = null;
+        try {
+            toReturn = service.updateUser(user);
+        } catch (InvalidUserNameException | InvalidGameIDException | InvalidUserIDException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(toReturn);
+    }
 }

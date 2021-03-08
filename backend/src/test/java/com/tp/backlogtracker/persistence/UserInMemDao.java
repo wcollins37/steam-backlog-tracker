@@ -98,4 +98,9 @@ public class UserInMemDao implements UserDao {
     public boolean checkIfUserOwnsGame(String userID, String gameID) throws InvalidUserIDException, InvalidGameIDException {
         return false;
     }
+
+    @Override
+    public int updateUserInfo(String userID, String name) throws InvalidUserIDException, InvalidUserNameException {
+        return 0;
+    }
 }

@@ -4,6 +4,7 @@
     <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
     <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
     <p *ngIf="user != null && user != undefined">{{user.percentCompleted}}% of your library has been completed</p>
+    <button (click)="updateUser()">Update User</button>
     <div class="controls">
         <div class="displayedGames">
             <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event)">

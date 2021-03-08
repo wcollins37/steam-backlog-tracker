@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -189,6 +190,27 @@ public class GamePostgresDao implements GameDao {
         }
 
         return games;
+    }
+
+    @Override
+    public int updateHoursPlayed(String userID, String gameID, double newHours) throws InvalidUserIDException, InvalidGameIDException {
+        if (userID == null || userID == "") {
+            throw new InvalidUserIDException("User ID cannot be null or empty");
+        }
+        if (gameID == null || gameID == "") {
+            throw new InvalidGameIDException("Game ID cannot be null or empty");
+        }
+        int status = -1;
+        try {
+            status = template.update("update \"UserGames\" set \"playTime\" = ?\n" +
+                    "where \"userID\" = ? and \"gameID\" = ?;",
+                    newHours,
+                    userID,
+                    gameID);
+        } catch (DataAccessException ex) {
+            return 0;
+        }
+        return status;
     }
 
     /*@Override

@@ -50,7 +50,11 @@ export class UserComponent implements OnInit {
       this.lastSort = sort;
       switch (sort.active) {
         case "completed": 
-          return this.compare(a.completed, b.completed, isAsc) | this.compare(a.name.toLowerCase(), b.name.toLowerCase(), true);
+          if (a.completed === b.completed) {
+            return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), true)
+          } else {
+            return this.compare(a.completed, b.completed, isAsc);
+          }
         case "name": return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
         case "hoursPlayed": return this.compare(a.hoursPlayed, b.hoursPlayed, isAsc);
         default: return 0;
@@ -103,6 +107,12 @@ export class UserComponent implements OnInit {
   navigateToStore(game : Game) {
     let formattedTitle : string = game.name.split(' ').join('_');
     window.location.href = "https://store.steampowered.com/app/" + game.gameID + "/" + formattedTitle;
+  }
+
+  updateUser() {
+    this.libService.updateUser(this.user).subscribe(x => {
+      this.user = x;
+    })
   }
 
 }

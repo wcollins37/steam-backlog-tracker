@@ -103,6 +103,11 @@ public class GameInMemDao implements GameDao {
         return null;
     }
 
+    @Override
+    public int updateHoursPlayed(String userID, String gameID, double newHours) throws InvalidUserIDException, InvalidGameIDException {
+        return 0;
+    }
+
     /*    @Override
     public List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException {
         if (userID == null) {

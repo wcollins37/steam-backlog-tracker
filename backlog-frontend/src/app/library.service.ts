@@ -111,4 +111,8 @@ export class LibraryService {
   getUncompletedGames(userID : string) : Observable<Game[]> {
     return this.http.get<Game[]>(this.baseURL + "/uncompleted/" + userID);
   }
+
+  updateUser(user : User) : Observable<User> {
+    return this.http.put<User>(this.baseURL + "/user/update", user, this.httpOptions);
+  }
 }

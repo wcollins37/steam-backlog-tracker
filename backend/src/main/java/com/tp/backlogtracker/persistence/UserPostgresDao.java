@@ -130,4 +130,25 @@ public class UserPostgresDao implements UserDao {
         }
         return count > 0;
     }
+
+    @Override
+    public int updateUserInfo(String userID, String name) throws InvalidUserIDException, InvalidUserNameException {
+        if (userID == null || userID == "") {
+            throw new InvalidUserIDException("User ID cannot be null or empty");
+        }
+        if (name == null || name == "") {
+            throw new InvalidUserNameException("Username cannot be null or empty");
+        }
+
+        int status = -1;
+        try {
+            status = template.update("update \"Users\" set \"name\" = ?\n" +
+                    "where \"userID\" = ?;",
+                    name,
+                    userID);
+        } catch (DataAccessException ex) {
+            return 0;
+        }
+        return status;
+    }
 }
