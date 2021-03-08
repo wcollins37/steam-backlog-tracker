@@ -131,4 +131,10 @@ export class UserComponent implements OnInit {
     })
   }
 
+  pickLeastPlayedUncompletedGame() {
+    this.libService.pickLeastPlayedUncompletedGame(this.user.userID).subscribe(x => {
+      this.navigateToStore(x);
+    })
+  }
+
 }

@@ -13,6 +13,7 @@ public interface GameDao {
 //    List<Game> getUserGamesInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException;
     List<Game> getUserGamesUnderHoursPlayed(String userID, Double hoursPlayed) throws NoGamesFoundException, InvalidUserIDException;
     List<Game> getUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException;
+    List<Game> getLeastPlayedUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException;
     int updateHoursPlayed(String userID, String gameID, double newHours) throws InvalidUserIDException, InvalidGameIDException;
 //    List<Game> getLeastPlayedGameInGenre(String userID, String genre) throws NoGamesFoundException, InvalidUserIDException;
     Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException;

@@ -173,6 +173,15 @@ public class BacklogService {
         return gameDao.getUncompletedGames(userID);
     }
 
+    public Game getRandomLeastPlayedUncompletedGame(String userID) throws InvalidUserIDException, NoGamesFoundException {
+        List<Game> games = this.gameDao.getLeastPlayedUncompletedGames(userID);
+        if (games.size() == 0) {
+            throw new NoGamesFoundException("No games found");
+        } else {
+            return games.get(rand.nextInt(games.size()));
+        }
+    }
+
     public User updateUser(User user) throws InvalidUserIDException, InvalidUserNameException, InvalidGameIDException {
         int updateStatus = this.userDao.updateUserInfo(user.getUserID(), user.getName());
         if (updateStatus == 0) {

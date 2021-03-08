@@ -115,4 +115,8 @@ export class LibraryService {
   updateUser(user : User) : Observable<User> {
     return this.http.put<User>(this.baseURL + "/user/update", user, this.httpOptions);
   }
+
+  pickLeastPlayedUncompletedGame(userID : string) : Observable<Game> {
+    return this.http.get<Game>(this.baseURL + "/random/uncompleted/" + userID);
+  }
 }

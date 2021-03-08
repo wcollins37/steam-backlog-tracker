@@ -172,8 +172,8 @@ public class GamePostgresDao implements GameDao {
 
     @Override
     public List<Game> getUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException {
-        if (userID == null) {
-            throw new InvalidUserIDException("User ID cannot be null");
+        if (userID == null || userID == "") {
+            throw new InvalidUserIDException("User ID cannot be null or empty");
         }
         List<Game> games = new ArrayList<>();
 
@@ -189,6 +189,27 @@ public class GamePostgresDao implements GameDao {
             throw new NoGamesFoundException("No games found");
         }
 
+        return games;
+    }
+
+    @Override
+    public List<Game> getLeastPlayedUncompletedGames(String userID) throws InvalidUserIDException, NoGamesFoundException {
+        if (userID == null || userID == "") {
+            throw new InvalidUserIDException("User ID cannot be null or empty");
+        }
+
+        List<Game> games = new ArrayList<>();
+        try {
+            games = template.query("select ga.\"gameID\", ga.\"name\" as \"gameName\", ga.\"image\" as \"gameImage\", ug.\"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
+                    "from \"Games\" as ga\n" +
+                    "inner join \"UserGames\" as ug on ga.\"gameID\" = ug.\"gameID\"\n" +
+                    "where ug.\"userID\" = ? and ug.\"playTime\" = (select min(\"playTime\") from \"UserGames\" where \"userID\" = ?);",
+                    new GameMapper(),
+                    userID,
+                    userID);
+        } catch (DataAccessException ex) {
+            throw new NoGamesFoundException("No games found");
+        }
         return games;
     }
 
