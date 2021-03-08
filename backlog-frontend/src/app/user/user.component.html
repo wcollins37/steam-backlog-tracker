@@ -1,40 +1,41 @@
-<p *ngIf="errorMessage != ''">{{errorMessage}}</p>
-<div *ngIf="user != null && user != undefined" class="topbar">
-    <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
-    <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
-    <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
-    <p *ngIf="user != null && user != undefined">{{user.percentCompleted}}% of your library has been completed</p>
-    <button (click)="updateUser()">Update User</button>
-    <div class="controls">
-        <div class="displayedGames">
-            <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event)">
-            <label for="all">All Games</label>
-            <br/>
-            <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event)">
-            <label for="uncompleted">Uncompleted Games</label>
+ <body>
+    <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
+    <div *ngIf="user != null && user != undefined" class="topbar">
+        <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
+        <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
+        <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
+        <p *ngIf="user != null && user != undefined">{{user.percentCompleted}}% of {{user.name}}'s library has been completed</p>
+        <button (click)="updateUser()">Update User</button>
+        <div class="controls">
+            <div class="displayedGames">
+                <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event)">
+                <label for="all">All Games</label>
+                <br/>
+                <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event)">
+                <label for="uncompleted">Uncompleted Games</label>
+            </div>
+            <button (click)="getRandomGame()">Pick Random Game</button>
+            <button (click)="pickLeastPlayedUncompletedGame()">Least Played Uncompleted Game</button>
         </div>
-        <button (click)="getRandomGame()">Pick Random Game</button>
-        <button (click)="pickLeastPlayedUncompletedGame()">Least Played Uncompleted Game</button>
     </div>
-</div>
-<!--<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>-->
-<table *ngIf="user != null && user != undefined" matSort class="gameTable" (matSortChange)="sortData($event)">
+    <!--<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>-->
+    <table *ngIf="user != null && user != undefined" matSort class="gameTable" (matSortChange)="sortData($event)">
 
-    <tr>
-        <th mat-sort-header="completed">Completed?</th>
-        <th mat-sort-header="name">Name</th>
-        <th mat-sort-header="img">Logo</th>
-        <th mat-sort-header="hoursPlayed">Hours Played</th>
-    </tr>
+        <tr>
+            <th mat-sort-header="completed">Completed?</th>
+            <th mat-sort-header="name">Name</th>
+            <th mat-sort-header="img">Logo</th>
+            <th mat-sort-header="hoursPlayed">Hours Played</th>
+        </tr>
 
-    <tr *ngFor="let game of user.library">
-        <td class="cell" (click)="swapCompleted(game)"><img class="completed-img" [src]="game.completed ?
-            '../assets/check.png' :
-            '../assets/empty.png'"></td>
-        <td class="cell" (click)="navigateToStore(game)">{{game.name}}</td>
-        <td class="cell"><img class="cell-img" [src]="game.img"></td>
-        <td class="cell">{{game.hoursPlayed}}</td>
-    </tr>
+        <tr *ngFor="let game of user.library">
+            <td class="cell" (click)="swapCompleted(game)"><img class="completed-img" [src]="game.completed ?
+                '../assets/check.png' :
+                '../assets/empty.png'"></td>
+            <td class="cell" (click)="navigateToStore(game)">{{game.name}}</td>
+            <td class="cell"><img class="cell-img" [src]="game.img"></td>
+            <td class="cell">{{game.hoursPlayed}}</td>
+        </tr>
 
-</table>
-    
+    </table>
+</body>

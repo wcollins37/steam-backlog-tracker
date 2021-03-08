@@ -28,14 +28,16 @@ export class UserComponent implements OnInit {
       id = params['id'];
     });
     this.libService.getUserByID(id).subscribe(user => {
-      if (user === null) {
+      console.log(this.user)
+      if (user === null || user === undefined) {
         this.errorMessage = "User not found";
+      } else {
+        this.user = user;
+        this.sortData({active: "name", direction: "asc"})
+        this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
+        this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
+        this.sortedLibrary = this.user.library;
       }
-      this.user = user;
-      this.sortData({active: "name", direction: "asc"})
-      this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
-      this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
-      this.sortedLibrary = this.user.library;
     });
   }
 
@@ -73,10 +75,9 @@ export class UserComponent implements OnInit {
   }
 
   getRandomGame() : void {
-    this.libService.getRandomGame(this.user.userID).subscribe(x => {
-      this.navigateToStore(x);
-    });
-    
+    let randomGame : Game = this.user.library[Math.floor(Math.random() * this.user.library.length)];
+    console.log(randomGame);
+    this.navigateToStore(randomGame);
   }
 
   changeDisplayedGames(e) : void {

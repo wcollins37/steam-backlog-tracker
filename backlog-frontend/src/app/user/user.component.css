@@ -1,6 +1,9 @@
 .topbar {
     text-align: center;
 }
+.error {
+    text-align: center;
+}
 .displayedGames{
     text-align: left;
     width: 170px;
@@ -14,7 +17,7 @@
     width: 100%;
 }
 .cell{
-    border: 2px solid black;
+    border: 2px solid white;
     box-sizing: border-box;
     border-radius: 3px;
     text-align: center;
@@ -29,4 +32,7 @@
 .completed-img{
     height: 100px;
     width: 100px;
+}
+body{
+    color: white;
 }
