@@ -1,5 +1,5 @@
 <p *ngIf="errorMessage != ''">{{errorMessage}}</p>
-<div class="topbar">
+<div *ngIf="user != null && user != undefined" class="topbar">
     <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
     <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
     <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
@@ -18,7 +18,7 @@
     </div>
 </div>
 <!--<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>-->
-<table matSort class="gameTable" (matSortChange)="sortData($event)">
+<table *ngIf="user != null && user != undefined" matSort class="gameTable" (matSortChange)="sortData($event)">
 
     <tr>
         <th mat-sort-header="completed">Completed?</th>
