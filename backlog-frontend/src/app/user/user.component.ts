@@ -100,6 +100,12 @@ export class UserComponent implements OnInit {
 
   swapCompleted(game) {
     this.libService.swapCompletedStatus(game).subscribe(x => {
+      if (x.completed) {
+        this.user.numUncompletedGames--;
+      } else {
+        this.user.numUncompletedGames++;
+      }
+      this.user.percentCompleted = Math.round((this.user.library.length - this.user.numUncompletedGames) / this.user.library.length * 100) / 100;
       if (this.displayedGames === "all") {
         this.libService.getFullUserLibrary(this.user.userID).subscribe(y => {
           this.user.library = y;
