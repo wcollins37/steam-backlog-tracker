@@ -28,7 +28,7 @@
             <th mat-sort-header="hoursPlayed">Hours Played</th>
         </tr>
 
-        <tr *ngFor="let game of user.library">
+        <tr class="row" *ngFor="let game of user.library">
             <td class="cell" (click)="swapCompleted(game)"><img class="completed-img" [src]="game.completed ?
                 '../assets/check.png' :
                 '../assets/empty.png'"></td>
