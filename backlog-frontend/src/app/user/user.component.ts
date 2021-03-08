@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   errorMessage : String = "";
   @Input()displayedGames : String = "all";
   sortedLibrary : Game[];
-  lastSort : Sort = {active: "", direction: "asc"};
+  lastSort : Sort = {active: "name", direction: "asc"};
 
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
@@ -32,6 +32,7 @@ export class UserComponent implements OnInit {
         this.errorMessage = "User not found";
       }
       this.user = user;
+      this.sortData({active: "name", direction: "asc"})
       this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
       this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
       this.sortedLibrary = this.user.library;
@@ -56,7 +57,12 @@ export class UserComponent implements OnInit {
             return this.compare(a.completed, b.completed, isAsc);
           }
         case "name": return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
-        case "hoursPlayed": return this.compare(a.hoursPlayed, b.hoursPlayed, isAsc);
+        case "hoursPlayed":
+          if (a.hoursPlayed === b.hoursPlayed) {
+            return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), true);
+          } else {
+            return this.compare(a.hoursPlayed, b.hoursPlayed, isAsc);
+          }
         default: return 0;
       }
     })
@@ -79,28 +85,31 @@ export class UserComponent implements OnInit {
       case "all":
         this.libService.getFullUserLibrary(this.user.userID).subscribe(x => {
           this.user.library = x;
+          this.sortData(this.lastSort);
         });
         break;
       case "uncompleted":
         this.libService.getUncompletedGames(this.user.userID).subscribe(x => {
           this.user.library = x;
+          this.sortData(this.lastSort);
         })
         break;
     }
   }
 
-  changeCompleted(game : Game) : void {
-    this.libService.swapCompletedStatus(game).subscribe(x => {
-      game = x;
-    })
-  }
-
   swapCompleted(game) {
     this.libService.swapCompletedStatus(game).subscribe(x => {
-      this.libService.getFullUserLibrary(this.user.userID).subscribe(y => {
-        this.user.library = y;
-        this.sortData(this.lastSort);
-      })
+      if (this.displayedGames === "all") {
+        this.libService.getFullUserLibrary(this.user.userID).subscribe(y => {
+          this.user.library = y;
+          this.sortData(this.lastSort);
+        });
+      } else if (this.displayedGames === "uncompleted") {
+        this.libService.getUncompletedGames(this.user.userID).subscribe(y => {
+          this.user.library = y;
+          this.sortData(this.lastSort);
+        })
+      }
     })
   }
 
@@ -110,8 +119,15 @@ export class UserComponent implements OnInit {
   }
 
   updateUser() {
-    this.libService.updateUser(this.user).subscribe(x => {
-      this.user = x;
+    this.libService.retrieveSteamUserInfo(this.user.userID).subscribe(steamUser => {
+      let updatedUser : User = {userID: this.user.userID, name: steamUser.response.players[0].personaname};
+      this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(steamGames => {
+        updatedUser.library = steamGames;
+        this.libService.updateUser(updatedUser).subscribe(x => {
+          this.user = x;
+          this.sortData(this.lastSort);
+        })
+      })
     })
   }
 
