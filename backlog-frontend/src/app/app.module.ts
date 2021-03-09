@@ -16,6 +16,7 @@ import {MatTableModule} from '@angular/material/table';
 import { GameTableComponent } from './game-table/game-table.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {MatRadioModule} from '@angular/material/radio';
     NoopAnimationsModule,
     MatTableModule,
     MatSortModule,
-    MatRadioModule
+    MatRadioModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

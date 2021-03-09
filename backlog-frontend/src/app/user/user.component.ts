@@ -1,10 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Sort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Game } from '../Game';
 import { Genre } from '../Genre';
 import { LibraryService } from '../library.service';
 import { User } from '../User';
+
 
 @Component({
   selector: 'app-user',
@@ -16,8 +19,8 @@ export class UserComponent implements OnInit {
   user : User;
   errorMessage : String = "";
   @Input()displayedGames : String = "all";
-  sortedLibrary : Game[];
   lastSort : Sort = {active: "name", direction: "asc"};
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
@@ -36,7 +39,6 @@ export class UserComponent implements OnInit {
         this.sortData({active: "name", direction: "asc"})
         this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
         this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
-        this.sortedLibrary = this.user.library;
       }
     });
   }
@@ -81,8 +83,9 @@ export class UserComponent implements OnInit {
   }
 
   changeDisplayedGames(e) : void {
-    console.log(e.target.value);
-    switch(e.target.value) {
+    console.log(e);
+    this.displayedGames = e;
+    switch(e) {
       case "all":
         this.libService.getFullUserLibrary(this.user.userID).subscribe(x => {
           this.user.library = x;
@@ -106,17 +109,7 @@ export class UserComponent implements OnInit {
         this.user.numUncompletedGames++;
       }
       this.user.percentCompleted = Math.round((this.user.library.length - this.user.numUncompletedGames) / this.user.library.length * 100) / 100;
-      if (this.displayedGames === "all") {
-        this.libService.getFullUserLibrary(this.user.userID).subscribe(y => {
-          this.user.library = y;
-          this.sortData(this.lastSort);
-        });
-      } else if (this.displayedGames === "uncompleted") {
-        this.libService.getUncompletedGames(this.user.userID).subscribe(y => {
-          this.user.library = y;
-          this.sortData(this.lastSort);
-        })
-      }
+      this.changeDisplayedGames(this.displayedGames);
     })
   }
 

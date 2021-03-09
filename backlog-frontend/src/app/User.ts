@@ -8,4 +8,5 @@ export interface User {
     numUncompletedGames? : number;
     percentCompleted? : number;
     friends? : User[];
+    profilePic? : string;
 }

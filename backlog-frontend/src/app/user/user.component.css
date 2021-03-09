@@ -2,10 +2,11 @@
     text-align: center;
     height: auto;
     width: 100%;
-    background-color: #646c76;
+    background-color: #042430;
     position: sticky;
     top: 0;
     z-index: 1;
+    padding-top: 5px;
 }
 .error {
     text-align: center;
@@ -20,6 +21,9 @@
 }
 .completed{
     background-color: green;
+}
+.completed-img{
+    width: 100%;
 }
 .gameTable{
     width: 100%;
@@ -41,10 +45,10 @@
     height: 100px;
     width: 100px;
 }
-html{
-    background-color: #646c76 !important;
-}
 body{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
     color: white;
     background-color: #646c76;
 }
@@ -55,9 +59,20 @@ body{
     color: white;
 }
 .mat-cell{
-    background-color: #042430;
+    background-color: #646c76;
     color: white;
     text-align: center;
     font-weight: bold;
+    font-size: x-large;
     border-bottom: 2px solid white;
+}
+.games{
+    flex-grow: 1;
+}
+.radio-group{
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
