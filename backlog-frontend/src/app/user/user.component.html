@@ -4,22 +4,22 @@
         <p *ngIf="user != null && user != undefined" style="margin-top: 0">{{user.name}}'s Library</p>
         <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
         <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
-        <p *ngIf="user != null && user != undefined">{{user.percentCompleted}}% of {{user.name}}'s library has been completed</p>
-        <button mat-raised-button (click)="updateUser()">Update User</button>
+        <p *ngIf="user != null && user != undefined" style="margin-bottom: 5px">{{user.percentCompleted}}% of {{user.name}}'s library has been completed</p>
+        <button mat-raised-button (click)="updateUser()" style="margin-bottom: 5px;">Update User</button>
         <div class="controls">
-            <!--<div class="displayedGames">
-                <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event)">
+            <div class="displayedGames" style="margin-bottom: 5px">
+                <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event.target.value)">
                 <label for="all">All Games</label>
                 <br/>
-                <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event)">
+                <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event.target.value)">
                 <label for="uncompleted">Uncompleted Games</label>
-            </div>-->
-            <mat-radio-group class="radio-group" (change)="changeDisplayedGames($event.value)">
-                <mat-radio-button value="all">All games</mat-radio-button>
+            </div>
+            <!--<mat-radio-group class="radio-group" (change)="changeDisplayedGames($event.value)" style="color: 44DE15">
+                <mat-radio-button value="all" [disableRipple]="true">All games</mat-radio-button>
                 <br/>
-                <mat-radio-button value="uncompleted">Uncompleted games</mat-radio-button>
+                <mat-radio-button value="uncompleted" [disableRipple]="true">Uncompleted games</mat-radio-button>
             </mat-radio-group>
-            <br/>
+            <br/>-->
             <button mat-raised-button (click)="getRandomGame()">Pick Random Game</button>
             <button mat-raised-button (click)="pickLeastPlayedUncompletedGame()">Least Played Uncompleted Game</button>
         </div>
@@ -52,7 +52,7 @@
                 <th class="header-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Completed?</th>
                 <td mat-cell (click)="swapCompleted(game)" *matCellDef="let game"><img class="completed-img" [src]="game.completed ?
                         '../assets/check.png' :
-                        '../assets/empty.png'"></td>
+                        '../assets/empty.png'" style="text-align: left;"></td>
             </ng-container>
 
             <ng-container matColumnDef="name">

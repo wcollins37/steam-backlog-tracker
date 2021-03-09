@@ -21,6 +21,7 @@ export class UserComponent implements OnInit {
   @Input()displayedGames : String = "all";
   lastSort : Sort = {active: "name", direction: "asc"};
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  totalLibrarySize : number;
 
 
   constructor(private libService : LibraryService, private route: ActivatedRoute) { }
@@ -39,6 +40,7 @@ export class UserComponent implements OnInit {
         this.sortData({active: "name", direction: "asc"})
         this.user.avgPlayTime = Math.round(this.user.avgPlayTime * 100) / 100;
         this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
+        this.totalLibrarySize = this.user.library.length;
       }
     });
   }
@@ -108,7 +110,7 @@ export class UserComponent implements OnInit {
       } else {
         this.user.numUncompletedGames++;
       }
-      this.user.percentCompleted = Math.round((this.user.library.length - this.user.numUncompletedGames) / this.user.library.length * 100) / 100;
+      this.user.percentCompleted = Math.round((this.totalLibrarySize - this.user.numUncompletedGames) / this.totalLibrarySize * 100) / 100;
       this.changeDisplayedGames(this.displayedGames);
     })
   }
@@ -126,6 +128,7 @@ export class UserComponent implements OnInit {
         this.libService.updateUser(updatedUser).subscribe(x => {
           this.user = x;
           this.sortData(this.lastSort);
+          this.totalLibrarySize = x.library.length;
         })
       })
     })
