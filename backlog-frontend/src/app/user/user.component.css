@@ -1,8 +1,16 @@
 .topbar {
     text-align: center;
+    height: auto;
+    width: 100%;
+    background-color: #646c76;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 .error {
     text-align: center;
+    top: 0;
+    position: fixed;
 }
 .displayedGames{
     text-align: left;
@@ -33,6 +41,23 @@
     height: 100px;
     width: 100px;
 }
+html{
+    background-color: #646c76 !important;
+}
 body{
     color: white;
+    background-color: #646c76;
+}
+.header-cell{
+    z-index: 1 !important;
+    top: 220px !important;
+    background-color: #042430;
+    color: white;
+}
+.mat-cell{
+    background-color: #042430;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid white;
 }
