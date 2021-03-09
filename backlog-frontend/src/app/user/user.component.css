@@ -55,7 +55,7 @@ body{
 }
 .header-cell{
     z-index: 1 !important;
-    top: 270px !important;
+    top: 307px !important;
     background-color: #042430;
     color: white;
 }
@@ -79,4 +79,10 @@ body{
 }
 .mat-radio-inner-circle{
     background-color: white;
+}
+.header-row{
+    text-align: center;
+}
+.back-button{
+    text-align: left;
 }

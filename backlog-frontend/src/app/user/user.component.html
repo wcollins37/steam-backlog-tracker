@@ -1,6 +1,9 @@
  <body>
     <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
     <div *ngIf="user != null && user != undefined" class="topbar">
+        <div class="back-button">
+            <button mat-raised-button (click)="backToAddUser()">Back</button>
+        </div>
         <p *ngIf="user != null && user != undefined" style="margin-top: 0">{{user.name}}'s Library</p>
         <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
         <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>

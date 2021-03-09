@@ -1,5 +1,6 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -24,7 +25,7 @@ export class UserComponent implements OnInit {
   totalLibrarySize : number;
 
 
-  constructor(private libService : LibraryService, private route: ActivatedRoute) { }
+  constructor(private libService : LibraryService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     let id = -1;
@@ -138,6 +139,10 @@ export class UserComponent implements OnInit {
     this.libService.pickLeastPlayedUncompletedGame(this.user.userID).subscribe(x => {
       this.navigateToStore(x);
     })
+  }
+
+  backToAddUser() {
+    this.router.navigate([""]);
   }
 
 }
