@@ -23,6 +23,7 @@ export class UserComponent implements OnInit {
   lastSort : Sort = {active: "name", direction: "asc"};
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   totalLibrarySize : number;
+  loading : boolean = true;
 
 
   constructor(private libService : LibraryService, private route: ActivatedRoute, private router: Router) { }
@@ -33,7 +34,7 @@ export class UserComponent implements OnInit {
       id = params['id'];
     });
     this.libService.getUserByID(id).subscribe(user => {
-      console.log(this.user)
+      console.log("User =" + this.user)
       if (user === null || user === undefined) {
         this.errorMessage = "User not found";
       } else {
@@ -43,6 +44,7 @@ export class UserComponent implements OnInit {
         this.user.percentCompleted = Math.round(this.user.percentCompleted * 100) / 100;
         this.totalLibrarySize = this.user.library.length;
       }
+      this.loading = false;
     });
   }
 

@@ -1,15 +1,15 @@
  <body>
-    <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
-    <div *ngIf="user != null && user != undefined" class="topbar">
+    <div *ngIf="!loading" class="topbar">
         <div class="back-button">
+            <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
             <button mat-raised-button (click)="backToAddUser()">Back</button>
         </div>
         <p *ngIf="user != null && user != undefined" style="margin-top: 0">{{user.name}}'s Library</p>
         <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
         <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
         <p *ngIf="user != null && user != undefined" style="margin-bottom: 5px">{{user.percentCompleted}}% of {{user.name}}'s library has been completed</p>
-        <button mat-raised-button (click)="updateUser()" style="margin-bottom: 5px;">Update User</button>
-        <div class="controls">
+        <button *ngIf="user != null && user != undefined" mat-raised-button (click)="updateUser()" style="margin-bottom: 5px;">Update User</button>
+        <div *ngIf="user != null && user != undefined" class="controls">
             <div class="displayedGames" style="margin-bottom: 5px">
                 <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event.target.value)">
                 <label for="all">All Games</label>
@@ -49,7 +49,7 @@
 
         </table>
     </div>-->
-    <div class="games">
+    <div class="games" *ngIf="user != null && user != undefined">
         <table mat-table #mytable class="gameTable" [dataSource]="user.library" matSort (matSortChange)="sortData($event)">
             <ng-container matColumnDef="completed">
                 <th class="header-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Completed?</th>
