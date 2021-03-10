@@ -1,7 +1,6 @@
 package com.tp.backlogtracker.persistence;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +32,158 @@ class GamePostgresDaoTest {
                 "insert into \"Genres\" (\"genreID\",\"name\") values('1','testGenre'),('2','testGenre2');\n" +
                 "insert into \"GameGenres\" (\"gameID\",\"genreID\") values('1','1'),('2','2'),('3','1');\n" +
                 "insert into \"UserGames\" (\"userID\",\"gameID\",\"completed\",\"playTime\") values('1','1','true','10'),('1','2','false','20'),('1','3','false','15');");
+    }
+
+    @Test
+    public void testAddGameGoldenPath() {
+        Game newGame = new Game();
+        newGame.setGameID("99");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+
+        Game addedGame = new Game();
+        try {
+            addedGame = toTest.addGame(newGame);
+        } catch (NullGameException | InvalidGameIDException | NoChangesMadeException ex) {
+            fail();
+        }
+
+        assertEquals("99", addedGame.getGameID());
+        assertEquals("testAdd", addedGame.getName());
+        assertEquals("testImage", addedGame.getImg());
+    }
+
+    @Test
+    public void testAddGameNullGame() {
+        assertThrows(NullGameException.class, () -> toTest.addGame(null));
+    }
+
+    @Test
+    public void testAddGameDuplicateGameID() {
+        Game duplicate = new Game();
+        duplicate.setGameID("1");
+        duplicate.setName("testAdd");
+        duplicate.setImg("testImage");
+        assertThrows(NoChangesMadeException.class, () -> toTest.addGame(duplicate));
+    }
+
+    @Test
+    public void testAddGameToUserGoldenPath() {
+        Game newGame = new Game();
+        newGame.setGameID("99");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+        newGame.setUserID("1");
+        newGame.setHoursPlayed(20);
+
+        try {
+            toTest.addGame(newGame);
+        } catch (NullGameException | InvalidGameIDException | NoChangesMadeException ex) {
+            fail();
+        }
+
+        try {
+            toTest.addGameToUser(newGame);
+        } catch (NullGameException | NoChangesMadeException | InvalidUserIDException ex) {
+            fail();
+        }
+
+        List<Game> games = new ArrayList<>();
+        try {
+            games = toTest.getGamesByUserID("1");
+        } catch (InvalidUserIDException ex) {
+            fail();
+        }
+
+        Game addedGame = games.get(games.size() - 1);
+        assertEquals(4, games.size());
+        assertEquals("99", addedGame.getGameID());
+        assertEquals("testAdd", addedGame.getName());
+        assertEquals("testImage", addedGame.getImg());
+        assertEquals("1", addedGame.getUserID());
+        assertEquals(20, addedGame.getHoursPlayed());
+    }
+
+    @Test
+    public void testAddGameToUserNullGame() {
+        assertThrows(NullGameException.class, () -> toTest.addGameToUser(null));
+    }
+
+    @Test
+    public void testAddGameToUserNullUserID() {
+        Game newGame = new Game();
+        newGame.setGameID("99");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+        newGame.setUserID(null);
+        newGame.setHoursPlayed(20);
+
+        assertThrows(InvalidUserIDException.class, () -> toTest.addGameToUser(newGame));
+    }
+
+    @Test
+    public void testAddGameToUserEmptyUserID() {
+        Game newGame = new Game();
+        newGame.setGameID("99");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+        newGame.setUserID("");
+        newGame.setHoursPlayed(20);
+
+        assertThrows(InvalidUserIDException.class, () -> toTest.addGameToUser(newGame));
+    }
+
+    @Test
+    public void testAddGameToUserGameNotInDatabase() {
+        Game newGame = new Game();
+        newGame.setGameID("100");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+        newGame.setUserID("1");
+        newGame.setHoursPlayed(20);
+
+        assertThrows(NoChangesMadeException.class, () -> toTest.addGameToUser(newGame));
+    }
+
+    @Test
+    public void testAddGameToUserUserNotInDatabase() {
+        Game newGame = new Game();
+        newGame.setGameID("99");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+        newGame.setUserID("99");
+        newGame.setHoursPlayed(20);
+
+        try {
+            toTest.addGame(newGame);
+        } catch (NullGameException | InvalidGameIDException | NoChangesMadeException ex) {
+            fail();
+        }
+
+        assertThrows(NoChangesMadeException.class, () -> toTest.addGameToUser(newGame));
+    }
+
+    @Test
+    public void testAddGameToUserAddDuplicateGameToUser() {
+        Game newGame = new Game();
+        newGame.setGameID("99");
+        newGame.setName("testAdd");
+        newGame.setImg("testImage");
+        newGame.setUserID("1");
+        newGame.setHoursPlayed(20);
+
+        try {
+            toTest.addGame(newGame);
+        } catch (NullGameException | InvalidGameIDException | NoChangesMadeException ex) {
+            fail();
+        }
+
+        try {
+            toTest.addGameToUser(newGame);
+        } catch (NullGameException | NoChangesMadeException | InvalidUserIDException ex) {
+            fail();
+        }
+        assertThrows(NoChangesMadeException.class, () -> toTest.addGameToUser(newGame));
     }
 
     @Test

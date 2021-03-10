@@ -135,7 +135,10 @@ public class BacklogService {
         }
     }*/
 
-    public Game changeCompletedStatus(Game game) throws NoGamesFoundException {
+    public Game changeCompletedStatus(Game game) throws NoGamesFoundException, NullGameException {
+        if (game == null) {
+            throw new NullGameException("Game cannot be null");
+        }
         Game changedGame = gameDao.changeCompletedStatus(game.getUserID(), game.getGameID());
         String gameStatus = "";
         if (changedGame.isCompleted()) {

@@ -54,16 +54,6 @@ public class GameController {
         return ResponseEntity.ok(response.body());
     }
 
-    @PostMapping("/game/add")
-    public ResponseEntity addGameFromSteam(@RequestBody Game game) {
-        try {
-            service.addGameFromSteam(game);
-        } catch (NullGameException | InvalidGameIDException | NoChangesMadeException | InvalidUserIDException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-        return ResponseEntity.ok("Game successfully added");
-    }
-
     @PostMapping("/game/addmany")
     public ResponseEntity addManyGamesFromSteam(@RequestBody Game[] games) {
         try {
@@ -101,7 +91,7 @@ public class GameController {
         Game toReturn = null;
         try {
             toReturn = service.changeCompletedStatus(game);
-        } catch (NoGamesFoundException ex) {
+        } catch (NoGamesFoundException | NullGameException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return ResponseEntity.ok(toReturn);

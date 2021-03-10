@@ -215,9 +215,10 @@ class BacklogServiceTest {
         assertEquals("Testgenre", game.getGenres().get(0));
         assertTrue(game.isCompleted());
 
-        assertEquals(149.0 / 3, user.getAvgPlayTime());
+
+        assertEquals(Math.round(149/3.0 * 100) / 100.0, user.getAvgPlayTime());
         assertEquals(1, user.getNumUncompletedGames());
-        assertEquals(2.0/3,user.getPercentCompleted());
+        assertEquals(Math.round(2.0/3 * 100) / 100.0,user.getPercentCompleted());
     }
 
     @Test
@@ -424,25 +425,35 @@ class BacklogServiceTest {
 
     @Test
     public void testChangeCompletedStatusGoldenPath() {
-        Game status = null;
+        Game game = null;
         try {
-            status = toTest.changeCompletedStatus(toTest.getUserByID("1").getLibrary().get(0));
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
+            game = toTest.changeCompletedStatus(toTest.getUserByID("1").getLibrary().get(0));
+        } catch (NoGamesFoundException | InvalidUserIDException | NullGameException ex) {
             fail();
         }
-        assertEquals("testGame's status has been changed to uncompleted for user 1", status);
+        assertEquals("1", game.getGameID());
+        assertEquals("testGame", game.getName());
+        assertEquals(10, game.getHoursPlayed());
+        assertEquals("1", game.getUserID());
+        assertEquals("Testgenre", game.getGenres().get(0));
+        assertFalse(game.isCompleted());
 
         try {
-            status = toTest.changeCompletedStatus(toTest.getUserByID("1").getLibrary().get(0));
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
+            game = toTest.changeCompletedStatus(toTest.getUserByID("1").getLibrary().get(0));
+        } catch (NoGamesFoundException | InvalidUserIDException | NullGameException ex) {
             fail();
         }
-        assertEquals("testGame's status has been changed to completed for user 1", status);
+        assertEquals("1", game.getGameID());
+        assertEquals("testGame", game.getName());
+        assertEquals(10, game.getHoursPlayed());
+        assertEquals("1", game.getUserID());
+        assertEquals("Testgenre", game.getGenres().get(0));
+        assertTrue(game.isCompleted());
     }
 
     @Test
     public void testChangeCompletedStatusNullGame() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.changeCompletedStatus(null));
+        assertThrows(NullGameException.class, () -> toTest.changeCompletedStatus(null));
     }
 
 /*    @Test
