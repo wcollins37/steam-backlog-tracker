@@ -24,6 +24,7 @@ export class UserComponent implements OnInit {
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   totalLibrarySize : number;
   loading : boolean = true;
+  selectedRow : string = "";
 
 
   constructor(private libService : LibraryService, private route: ActivatedRoute, private router: Router) { }
@@ -83,8 +84,8 @@ export class UserComponent implements OnInit {
 
   getRandomGame() : void {
     let randomGame : Game = this.user.library[Math.floor(Math.random() * this.user.library.length)];
-    console.log(randomGame);
-    this.navigateToStore(randomGame);
+    this.updateRowBackground(randomGame.gameID);
+    window.location.hash = "completed_" + this.selectedRow;
   }
 
   changeDisplayedGames(e) : void {
@@ -139,8 +140,23 @@ export class UserComponent implements OnInit {
 
   pickLeastPlayedUncompletedGame() {
     this.libService.pickLeastPlayedUncompletedGame(this.user.userID).subscribe(x => {
-      this.navigateToStore(x);
+      this.updateRowBackground(x.gameID);
+      window.location.hash = "completed_" + this.selectedRow;
     })
+  }
+
+  updateRowBackground(gameID : string) {
+    if (this.selectedRow != "") {
+      document.getElementById("completed_" + this.selectedRow).style["background-color"] = "#646c76";
+      document.getElementById("name_" + this.selectedRow).style["background-color"] = "#646c76";
+      document.getElementById("logo_" + this.selectedRow).style["background-color"] = "#646c76";
+      document.getElementById("hours_played_" + this.selectedRow).style["background-color"] = "#646c76";
+    }
+    this.selectedRow = gameID;
+    document.getElementById("completed_" + this.selectedRow).style["background-color"] = "#b5a596";
+      document.getElementById("name_" + this.selectedRow).style["background-color"] = "#b5a596";
+      document.getElementById("logo_" + this.selectedRow).style["background-color"] = "#b5a596";
+      document.getElementById("hours_played_" + this.selectedRow).style["background-color"] = "#b5a596";
   }
 
   backToAddUser() {

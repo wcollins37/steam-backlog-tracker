@@ -79,50 +79,6 @@ public class UserController {
         return ResponseEntity.ok(toReturn);
     }
 
-    /*@GetMapping("/user/{userID}/sort/genre")
-    public ResponseEntity sortUserGamesByGenre(@PathVariable String userID) {
-        User toReturn = null;
-        try {
-            toReturn = service.sortUserGamesByGenre(userID);
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-        return ResponseEntity.ok(toReturn);
-    }*/
-
-/*    @GetMapping("/user/{userID}/genre/{genre}")
-    public ResponseEntity getUserGamesByGenre(@PathVariable String userID, @PathVariable String genre) {
-        User toReturn = null;
-        try {
-            toReturn = service.getUserGamesByGenre(userID, genre);
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-        return ResponseEntity.ok(toReturn);
-    }*/
-
-    @GetMapping("/user/{userID}/sort/hoursplayed")
-    public ResponseEntity sortUserGamesByPlayTime(@PathVariable String userID) {
-        User toReturn = null;
-        try {
-            toReturn = service.sortUserGamesByHoursPlayed(userID);
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-        return ResponseEntity.ok(toReturn);
-    }
-
-    @GetMapping("/user/{userID}/hoursplayed/{hoursPlayed}")
-    public ResponseEntity getUserGamesUnderPlayTime(@PathVariable String userID, @PathVariable Double hoursPlayed) {
-        User toReturn = null;
-        try {
-            toReturn = service.getUserGamesUnderHoursPlayed(userID, hoursPlayed);
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-        return ResponseEntity.ok(toReturn);
-    }
-
     @PutMapping("user/update")
     public ResponseEntity updateUser(@RequestBody User user) {
         User toReturn = null;

@@ -9,6 +9,9 @@
     z-index: 1;
     padding-top: 5px;
 }
+.topbar p{
+    margin: 3px
+}
 .error {
     text-align: center;
     width: 100%;
@@ -56,7 +59,6 @@ body{
 }
 .header-cell{
     z-index: 1 !important;
-    top: 307px !important;
     background-color: #042430;
     color: white;
 }
@@ -67,9 +69,6 @@ body{
     font-weight: bold;
     font-size: x-large;
     border-bottom: 2px solid white;
-}
-.games{
-    flex-grow: 1;
 }
 .radio-group{
     display: inline-block;
@@ -86,4 +85,13 @@ body{
 }
 .back-button{
     text-align: left;
+}
+.games{
+    overflow-y: scroll;
+}
+body{
+    height: 100vh;
+}
+td.mat-cell:first-of-type{
+    padding-left: 0px !important;
 }
