@@ -28,6 +28,7 @@
     background-color: green;
 }
 .completed-img{
+    object-fit: cover;
     width: 100%;
 }
 .gameTable{
@@ -41,6 +42,7 @@
     font-size: large;
 }
 .cell-img{
+    object-fit: cover;
     width: 100%;
 }
 .header{

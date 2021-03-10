@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
   selectedRow : string = "";
 
 
-  constructor(private libService : LibraryService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private libService : LibraryService, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     let id = -1;
@@ -85,7 +85,10 @@ export class UserComponent implements OnInit {
   getRandomGame() : void {
     let randomGame : Game = this.user.library[Math.floor(Math.random() * this.user.library.length)];
     this.updateRowBackground(randomGame.gameID);
-    window.location.hash = "completed_" + this.selectedRow;
+    let rend = this.renderer.selectRootElement(".completed_"+randomGame.gameID);
+    rend.scrollIntoView();
+    document.getElementById("games").scrollBy(0, -60);
+    //window.scrollTo(0, document.getElementById("completed_"+this.selectedRow).getBoundingClientRect().top);
   }
 
   changeDisplayedGames(e) : void {
@@ -141,7 +144,9 @@ export class UserComponent implements OnInit {
   pickLeastPlayedUncompletedGame() {
     this.libService.pickLeastPlayedUncompletedGame(this.user.userID).subscribe(x => {
       this.updateRowBackground(x.gameID);
-      window.location.hash = "completed_" + this.selectedRow;
+      let rend = this.renderer.selectRootElement(".completed_"+x.gameID);
+      rend.scrollIntoView();
+      document.getElementById("games").scrollBy(0, -60);
     })
   }
 
