@@ -188,6 +188,9 @@ public class GamePostgresDao implements GameDao {
         } catch (EmptyResultDataAccessException ex) {
             throw new NoGamesFoundException("No games found");
         }
+        if (games.size() == 0) {
+            throw new NoGamesFoundException("No games found");
+        }
 
         return games;
     }
@@ -203,7 +206,7 @@ public class GamePostgresDao implements GameDao {
             games = template.query("select ga.\"gameID\", ga.\"name\" as \"gameName\", ga.\"image\" as \"gameImage\", ug.\"userID\", ug.\"playTime\" as \"hoursPlayed\", ug.\"completed\"\n" +
                     "from \"Games\" as ga\n" +
                     "inner join \"UserGames\" as ug on ga.\"gameID\" = ug.\"gameID\"\n" +
-                    "where ug.\"userID\" = ? and ug.\"playTime\" = (select min(\"playTime\") from \"UserGames\" where \"userID\" = ?);",
+                    "where ug.\"userID\" = ? and ug.\"completed\" = false and ug.\"playTime\" = (select min(\"playTime\") from \"UserGames\" where \"userID\" = ? and \"completed\" = 'false');",
                     new GameMapper(),
                     userID,
                     userID);

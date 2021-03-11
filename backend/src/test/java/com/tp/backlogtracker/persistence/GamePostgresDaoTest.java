@@ -217,78 +217,39 @@ class GamePostgresDaoTest {
         }
     }
 
-    /*@Test
-    public void testGetUserGamesOfGenreGoldenPath() {
-        List<Game> games = null;
+    @Test
+    public void testGetUncompletedGamesGoldenPath() {
+        List<Game> games = new ArrayList<>();
         try {
-            games = toTest.getUserGamesInGenre("1","testgenre");
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
+            games = toTest.getUncompletedGames("1");
+        } catch (InvalidUserIDException | NoGamesFoundException ex) {
             fail();
         }
+
         assertEquals(2, games.size());
-        Game game = games.get(0);
-        assertEquals("1", game.getGameID());
-        assertEquals("testGame", game.getName());
-        assertEquals(10, game.getHoursPlayed());
-        assertEquals("1", game.getUserID());
-        assertEquals("testGenre", game.getGenres().get(0));
-        assertEquals(true, game.isCompleted());
     }
 
     @Test
-    public void testGetUserGamesOfGenreNullUserID() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.getUserGamesInGenre(null, "testGenre"));
+    public void testGetUncompletedGamesNullUserID() {
+        assertThrows(InvalidUserIDException.class, () -> toTest.getUncompletedGames(null));
     }
 
     @Test
-    public void testGetUserGamesOfGenreNullGenre() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getUserGamesInGenre("1", null));
+    public void testGetUncompletedGamesEmptyUserID() {
+        assertThrows(InvalidUserIDException.class, () -> toTest.getUncompletedGames(""));
     }
 
     @Test
-    public void testGetUserGamesOfGenreNoGamesFound() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getUserGamesInGenre("1", "no"));
-    }*/
+    public void testGetUncompletedGamesNoGamesFound() {
+        assertThrows(NoGamesFoundException.class, () -> toTest.getUncompletedGames("99"));
+    }
 
     @Test
-    public void testGetUserGamesUnderHoursPlayedGoldenPath() {
-        List<Game> games = null;
+    public void testGetLeastPlayedUncompletedGamesGoldenPath() {
+        List<Game> games = new ArrayList<>();
         try {
-            games = toTest.getUserGamesUnderHoursPlayed("1",15.0);
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
-            fail();
-        }
-        assertEquals(1, games.size());
-        Game game = games.get(0);
-        assertEquals("1", game.getGameID());
-        assertEquals("testGame", game.getName());
-        assertEquals(10, game.getHoursPlayed());
-        assertEquals("1", game.getUserID());
-        assertEquals("testGenre", game.getGenres().get(0));
-        assertEquals(true, game.isCompleted());
-    }
-
-    @Test
-    public void testGetUserGamesUnderHoursPlayedNullUserID() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.getUserGamesUnderHoursPlayed(null, 15.0));
-    }
-
-    @Test
-    public void testGetUserGamesUnderHoursPlayedNullHoursPlayed() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getUserGamesUnderHoursPlayed("1", null));
-    }
-
-    @Test
-    public void testGetUserGamesUnderHoursPlayedNoGamesFound() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getUserGamesUnderHoursPlayed("1", 1.0));
-    }
-
-/*    @Test
-    public void testGetLeastPlayedGameInGenreGoldenPath() {
-        List<Game> games = null;
-        try {
-            games = toTest.getLeastPlayedGameInGenre("1", "testGenre");
-        } catch (NoGamesFoundException | InvalidUserIDException ex) {
+            games = toTest.getLeastPlayedUncompletedGames("1");
+        } catch (InvalidUserIDException | NoGamesFoundException ex) {
             fail();
         }
         assertEquals(1, games.size());
@@ -297,29 +258,18 @@ class GamePostgresDaoTest {
         assertEquals("testGame3", game.getName());
         assertEquals(15, game.getHoursPlayed());
         assertEquals("1", game.getUserID());
-        assertEquals("testGenre", game.getGenres().get(0));
         assertEquals(false, game.isCompleted());
     }
 
     @Test
-    public void testGetLeastPlayedGameInGenreNullUserID() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.getLeastPlayedGameInGenre(null, "testGenre"));
+    public void testGetLeastPlayedUncompletedGamesNullUserID() {
+        assertThrows(InvalidUserIDException.class, () -> toTest.getLeastPlayedUncompletedGames(null));
     }
 
     @Test
-    public void testGetLeastPlayedGameInGenreNoUserFound() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getLeastPlayedGameInGenre("2", "testGenre"));
+    public void testGetLeastPlayedUncompletedGamesEmptyUserID() {
+        assertThrows(InvalidUserIDException.class, () -> toTest.getLeastPlayedUncompletedGames(""));
     }
-
-    @Test
-    public void testGetLeastPlayedGameInGenreNullGenre() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getLeastPlayedGameInGenre("1", null));
-    }
-
-    @Test
-    public void testGetLeastPlayedGameInGenreBadGenre() {
-        assertThrows(NoGamesFoundException.class, () -> toTest.getLeastPlayedGameInGenre("1", "no"));
-    }*/
 
     @Test
     public void testChangeCompletedStatusGoldenPath() {
