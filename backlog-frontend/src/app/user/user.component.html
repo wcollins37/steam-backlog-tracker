@@ -49,8 +49,8 @@
 
         </table>
     </div>-->
-    <div id= "games" class="games" *ngIf="user != null && user != undefined">
-        <table mat-table #mytable class="gameTable" [dataSource]="user.library" matSort (matSortChange)="sortData($event)">
+    <div #games id= "games" class="games" *ngIf="user != null && user != undefined">
+        <table mat-table #mytable class="gameTable" [dataSource]="user.library" matSort (matSortChange)="sortData($event); games.scrollTop = 0;">
             <ng-container matColumnDef="completed">
                 <th class="header-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Completed?</th>
                 <td mat-cell [class]="'completed_' + game.gameID" (click)="swapCompleted(game)" *matCellDef="let game"  [id]="'completed_'+game.gameID"><img class="completed-img" [src]="game.completed ?

@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
       id = params['id'];
     });
     this.libService.getUserByID(id).subscribe(user => {
-      console.log("User =" + this.user)
+      console.log("User = " + this.user)
       if (user === null || user === undefined) {
         this.errorMessage = "User not found";
       } else {
@@ -75,7 +75,7 @@ export class UserComponent implements OnInit {
           }
         default: return 0;
       }
-    })
+    });
   }
 
   compare(a: number | string | boolean, b: number | string | boolean, isAsc: boolean) {

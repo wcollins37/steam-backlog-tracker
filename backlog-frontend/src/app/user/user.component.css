@@ -89,7 +89,7 @@ body{
     text-align: left;
 }
 .games{
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 body{
     height: 100vh;
