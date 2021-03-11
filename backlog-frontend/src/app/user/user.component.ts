@@ -85,7 +85,7 @@ export class UserComponent implements OnInit {
   getRandomGame() : void {
     let randomGame : Game = this.user.library[Math.floor(Math.random() * this.user.library.length)];
     this.updateRowBackground(randomGame.gameID);
-    let rend = this.renderer.selectRootElement(".completed_"+randomGame.gameID);
+    let rend = this.renderer.selectRootElement(".completed_"+randomGame.gameID, true);
     rend.scrollIntoView();
     document.getElementById("games").scrollBy(0, -60);
     //window.scrollTo(0, document.getElementById("completed_"+this.selectedRow).getBoundingClientRect().top);
@@ -144,7 +144,7 @@ export class UserComponent implements OnInit {
   pickLeastPlayedUncompletedGame() {
     this.libService.pickLeastPlayedUncompletedGame(this.user.userID).subscribe(x => {
       this.updateRowBackground(x.gameID);
-      let rend = this.renderer.selectRootElement(".completed_"+x.gameID);
+      let rend = this.renderer.selectRootElement(".completed_"+x.gameID, true);
       rend.scrollIntoView();
       document.getElementById("games").scrollBy(0, -60);
     })
@@ -159,9 +159,9 @@ export class UserComponent implements OnInit {
     }
     this.selectedRow = gameID;
     document.getElementById("completed_" + this.selectedRow).style["background-color"] = "#b5a596";
-      document.getElementById("name_" + this.selectedRow).style["background-color"] = "#b5a596";
-      document.getElementById("logo_" + this.selectedRow).style["background-color"] = "#b5a596";
-      document.getElementById("hours_played_" + this.selectedRow).style["background-color"] = "#b5a596";
+    document.getElementById("name_" + this.selectedRow).style["background-color"] = "#b5a596";
+    document.getElementById("logo_" + this.selectedRow).style["background-color"] = "#b5a596";
+    document.getElementById("hours_played_" + this.selectedRow).style["background-color"] = "#b5a596";
   }
 
   backToAddUser() {
