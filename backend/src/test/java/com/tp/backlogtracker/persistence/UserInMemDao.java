@@ -27,7 +27,7 @@ public class UserInMemDao implements UserDao {
     }
 
     @Override
-    public String addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+    public String addUser(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -100,7 +100,7 @@ public class UserInMemDao implements UserDao {
     }
 
     @Override
-    public int updateUserInfo(String userID, String name) throws InvalidUserIDException, InvalidUserNameException {
+    public int updateUserInfo(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException {
         return 0;
     }
 }

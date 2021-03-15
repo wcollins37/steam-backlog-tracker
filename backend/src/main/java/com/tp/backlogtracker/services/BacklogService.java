@@ -43,9 +43,9 @@ public class BacklogService {
         }
     }
 
-    public User addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+    public User addUser(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
         User newUser = new User();
-        newUser.setUserID(userDao.addUser(userID, name));
+        newUser.setUserID(userDao.addUser(userID, name, avatarSrc));
         newUser.setName(name);
         return newUser;
     }
@@ -186,10 +186,10 @@ public class BacklogService {
     }
 
     public User updateUser(User user) throws InvalidUserIDException, InvalidUserNameException, InvalidGameIDException {
-        int updateStatus = this.userDao.updateUserInfo(user.getUserID(), user.getName());
+        int updateStatus = this.userDao.updateUserInfo(user.getUserID(), user.getName(), user.getAvatarSrc());
         if (updateStatus == 0) {
             try {
-                this.userDao.addUser(user.getUserID(), user.getName());
+                this.userDao.addUser(user.getUserID(), user.getName(), user.getAvatarSrc());
             } catch (NoChangesMadeException ex) {
                 System.out.println("User already in database");
             }

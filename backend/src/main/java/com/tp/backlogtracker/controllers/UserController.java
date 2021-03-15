@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity addUser(@RequestBody User user) {
         User toReturn = null;
         try {
-            toReturn = service.addUser(user.getUserID(), user.getName());
+            toReturn = service.addUser(user.getUserID(), user.getName(), user.getAvatarSrc());
         } catch (InvalidUserIDException | InvalidUserNameException | NoChangesMadeException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

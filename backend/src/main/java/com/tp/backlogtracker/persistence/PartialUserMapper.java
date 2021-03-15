@@ -19,6 +19,7 @@ class PartialUserMapper implements RowMapper<User> {
         User partialUser = new User();
         partialUser.setUserID(resultSet.getString(idCol));
         partialUser.setName(resultSet.getString("name"));
+        partialUser.setAvatarSrc(resultSet.getString("avatarSrc"));
         return partialUser;
     }
 }

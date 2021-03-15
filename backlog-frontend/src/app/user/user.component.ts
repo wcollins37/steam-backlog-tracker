@@ -129,7 +129,7 @@ export class UserComponent implements OnInit {
 
   updateUser() {
     this.libService.retrieveSteamUserInfo(this.user.userID).subscribe(steamUser => {
-      let updatedUser : User = {userID: this.user.userID, name: steamUser.response.players[0].personaname};
+      let updatedUser : User = {userID: this.user.userID, name: steamUser.response.players[0].personaname, avatarSrc: steamUser.response.players[0].avatar};
       this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(steamGames => {
         updatedUser.library = steamGames;
         this.libService.updateUser(updatedUser).subscribe(x => {
@@ -174,7 +174,7 @@ export class UserComponent implements OnInit {
     this.libService.deleteGameFromLibrary(game.gameID, this.user.userID).subscribe(x => {
       if (x != null) {
         this.user = x;
-        this.sortData({active: "name", direction: "asc"});
+        this.sortData(this.lastSort);
       }
     })
   }

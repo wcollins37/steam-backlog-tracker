@@ -4,6 +4,7 @@
             <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
             <button mat-raised-button (click)="backToAddUser()">Back</button>
         </div>
+        <img [src]="this.user.avatarSrc">
         <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
         <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
         <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
@@ -17,38 +18,10 @@
                 <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event.target.value)">
                 <label for="uncompleted">Uncompleted Games</label>
             </div>
-            <!--<mat-radio-group class="radio-group" (change)="changeDisplayedGames($event.value)" style="color: 44DE15">
-                <mat-radio-button value="all" [disableRipple]="true">All games</mat-radio-button>
-                <br/>
-                <mat-radio-button value="uncompleted" [disableRipple]="true">Uncompleted games</mat-radio-button>
-            </mat-radio-group>
-            <br/>-->
             <button mat-raised-button (click)="getRandomGame()">Pick Random Game</button>
             <button mat-raised-button (click)="pickLeastPlayedUncompletedGame()">Least Played Uncompleted Game</button>
         </div>
     </div>
-    <!--<app-library class="library" *ngIf="user != null && user != undefined" [games]="user.library"></app-library>-->
-    <!--<div class="tableView">
-        <table *ngIf="user != null && user != undefined" matSort class="gameTable" (matSortChange)="sortData($event)">
-
-            <tr class="header-row">
-                <th mat-sort-header="completed">Completed?</th>
-                <th mat-sort-header="name">Name</th>
-                <th mat-sort-header="img">Logo</th>
-                <th mat-sort-header="hoursPlayed">Hours Played</th>
-            </tr>
-
-            <tr class="row" *ngFor="let game of user.library">
-                <td class="cell" (click)="swapCompleted(game)"><img class="completed-img" [src]="game.completed ?
-                    '../assets/check.png' :
-                    '../assets/empty.png'"></td>
-                <td class="cell" (click)="navigateToStore(game)">{{game.name}}</td>
-                <td class="cell"><img class="cell-img" [src]="game.img"></td>
-                <td class="cell">{{game.hoursPlayed}}</td>
-            </tr>
-
-        </table>
-    </div>-->
     <div #games id= "games" class="games" *ngIf="user != null && user != undefined">
         <table mat-table #mytable class="gameTable" [dataSource]="user.library" matSort (matSortChange)="sortData($event); games.scrollTop = 0;">
             <ng-container matColumnDef="completed">

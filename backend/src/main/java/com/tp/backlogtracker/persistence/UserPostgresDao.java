@@ -24,7 +24,7 @@ public class UserPostgresDao implements UserDao {
 
 
     @Override
-    public String addUser(String userID, String name) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
+    public String addUser(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException, NoChangesMadeException {
         if (userID == null) {
             throw new InvalidUserIDException("User ID cannot be null");
         }
@@ -33,9 +33,10 @@ public class UserPostgresDao implements UserDao {
         }
         int status;
         try {
-            status = template.update("insert into \"Users\"(\"userID\",\"name\") values(?,?);",
+            status = template.update("insert into \"Users\"(\"userID\",\"name\",\"avatarSrc\") values(?,?,?);",
                     userID,
-                    name);
+                    name,
+                    avatarSrc);
         } catch (DataAccessException ex) {
             throw new NoChangesMadeException("No changes made");
         }
@@ -55,7 +56,7 @@ public class UserPostgresDao implements UserDao {
 
         try {
             partialUser = template.queryForObject(
-                    "select \"userID\",\"name\"\n" +
+                    "select \"userID\",\"name\",\"avatarSrc\"\n" +
                             "from \"Users\"\n" +
                             "where \"Users\".\"userID\" = ?;",
                     new PartialUserMapper("userID"),
@@ -132,7 +133,7 @@ public class UserPostgresDao implements UserDao {
     }
 
     @Override
-    public int updateUserInfo(String userID, String name) throws InvalidUserIDException, InvalidUserNameException {
+    public int updateUserInfo(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException {
         if (userID == null || userID == "") {
             throw new InvalidUserIDException("User ID cannot be null or empty");
         }
@@ -142,9 +143,10 @@ public class UserPostgresDao implements UserDao {
 
         int status = -1;
         try {
-            status = template.update("update \"Users\" set \"name\" = ?\n" +
+            status = template.update("update \"Users\" set \"name\" = ?, \"avatarSrc\" = ?\n" +
                     "where \"userID\" = ?;",
                     name,
+                    avatarSrc,
                     userID);
         } catch (DataAccessException ex) {
             return 0;

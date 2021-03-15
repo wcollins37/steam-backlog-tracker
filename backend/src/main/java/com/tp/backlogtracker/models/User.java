@@ -5,6 +5,7 @@ import java.util.List;
 public class User {
     String userID;
     String name;
+    String avatarSrc;
     List<Game> library;
     Double avgPlayTime;
     Integer numUncompletedGames;
@@ -25,6 +26,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAvatarSrc() {
+        return avatarSrc;
+    }
+
+    public void setAvatarSrc(String avatarSrc) {
+        this.avatarSrc = avatarSrc;
     }
 
     public List<Game> getLibrary() {

@@ -80,8 +80,8 @@ class BacklogServiceTest {
         addMoreGames();
 
         try {
-            toTest.userDao.addUser("1", "testUser");
-            toTest.userDao.addUser("2", "noGames");
+            toTest.userDao.addUser("1", "testUser", "testImage");
+            toTest.userDao.addUser("2", "noGames", "testImage");
         } catch (InvalidUserIDException | InvalidUserNameException | NoChangesMadeException ex) {
             fail();
         }
@@ -91,7 +91,7 @@ class BacklogServiceTest {
     public void testAddUserGoldenPath() {
         User user = null;
         try {
-            user = toTest.addUser("3", "testAdd");
+            user = toTest.addUser("3", "testAdd", "testImage");
         } catch (InvalidUserIDException | InvalidUserNameException | NoChangesMadeException ex) {
             fail();
         }
@@ -101,22 +101,22 @@ class BacklogServiceTest {
 
     @Test
     public void testAddUserNullUserID() {
-        assertThrows(InvalidUserIDException.class, () -> toTest.addUser(null, "no"));
+        assertThrows(InvalidUserIDException.class, () -> toTest.addUser(null, "no", "testImage"));
     }
 
     @Test
     public void testAddUserNullUserName() {
-        assertThrows(InvalidUserNameException.class, () -> toTest.addUser("99", null));
+        assertThrows(InvalidUserNameException.class, () -> toTest.addUser("99", null, "testImage"));
     }
 
     @Test
     public void testAddUserEmptyUserName() {
-        assertThrows(InvalidUserNameException.class, () -> toTest.addUser("99", ""));
+        assertThrows(InvalidUserNameException.class, () -> toTest.addUser("99", "", "testImage"));
     }
 
     @Test
     public void testAddUserUserIDAlreadyExists() {
-        assertThrows(NoChangesMadeException.class, () -> toTest.addUser("1", "no"));
+        assertThrows(NoChangesMadeException.class, () -> toTest.addUser("1", "no", "testImage"));
     }
 
     @Test

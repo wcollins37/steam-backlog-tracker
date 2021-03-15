@@ -13,6 +13,7 @@ export class AddUserComponent implements OnInit {
 
   @Input()userID : string;
   @Input()name : string;
+  @Input()avatarSrc : string;
 
   constructor(private libService : LibraryService, private router : Router) { }
 
@@ -27,7 +28,8 @@ export class AddUserComponent implements OnInit {
       }
       else {
         this.name = x.response.players[0].personaname;
-        let toAdd : User = {userID: this.userID, name: this.name};
+        this.avatarSrc = x.response.players[0].avatar;
+        let toAdd : User = {userID: this.userID, name: this.name, avatarSrc: this.avatarSrc};
         console.log(toAdd);
         this.libService.addUser(toAdd).subscribe(added => {
           this.libService.retrieveSteamUserLibrary(added.userID).subscribe(addedLib => {
