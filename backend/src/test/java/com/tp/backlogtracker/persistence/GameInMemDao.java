@@ -197,4 +197,9 @@ public class GameInMemDao implements GameDao {
         }
         return count;
     }
+
+    @Override
+    public void deleteGameFromLibrary(String gameID, String userID) throws InvalidGameIDException, InvalidUserIDException, NoChangesMadeException {
+        
+    }
 }

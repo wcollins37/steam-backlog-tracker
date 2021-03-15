@@ -19,4 +19,5 @@ public interface GameDao {
     Game changeCompletedStatus(String userID, String gameID) throws NoGamesFoundException;
     double getUserAveragePlayTime(String userID) throws InvalidUserIDException;
     int getNumOfUncompletedGames(String userID) throws InvalidUserIDException;
+    void deleteGameFromLibrary(String gameID, String userID) throws InvalidGameIDException, InvalidUserIDException, NoChangesMadeException;
 }

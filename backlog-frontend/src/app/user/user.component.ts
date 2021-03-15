@@ -156,16 +156,27 @@ export class UserComponent implements OnInit {
       document.getElementById("name_" + this.selectedRow).style["background-color"] = "#646c76";
       document.getElementById("logo_" + this.selectedRow).style["background-color"] = "#646c76";
       document.getElementById("hours_played_" + this.selectedRow).style["background-color"] = "#646c76";
+      document.getElementById("delete_" + this.selectedRow).style["background-color"] = "#646c76";
     }
     this.selectedRow = gameID;
     document.getElementById("completed_" + this.selectedRow).style["background-color"] = "#b5a596";
     document.getElementById("name_" + this.selectedRow).style["background-color"] = "#b5a596";
     document.getElementById("logo_" + this.selectedRow).style["background-color"] = "#b5a596";
     document.getElementById("hours_played_" + this.selectedRow).style["background-color"] = "#b5a596";
+    document.getElementById("delete_" + this.selectedRow).style["background-color"] = "#b5a596";
   }
 
   backToAddUser() {
     this.router.navigate([""]);
+  }
+
+  deleteGameFromLibrary(game : Game) {
+    this.libService.deleteGameFromLibrary(game.gameID, this.user.userID).subscribe(x => {
+      if (x != null) {
+        this.user = x;
+        this.sortData({active: "name", direction: "asc"});
+      }
+    })
   }
 
 }

@@ -206,4 +206,9 @@ public class BacklogService {
         }
         return getUserByID(user.getUserID());
     }
+
+    public User deleteGameFromLibrary(String gameID, String userID) throws InvalidGameIDException, InvalidUserIDException, NoChangesMadeException {
+        gameDao.deleteGameFromLibrary(gameID, userID);
+        return getUserByID(userID);
+    }
 }

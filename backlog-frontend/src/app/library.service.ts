@@ -119,4 +119,13 @@ export class LibraryService {
   pickLeastPlayedUncompletedGame(userID : string) : Observable<Game> {
     return this.http.get<Game>(this.baseURL + "/random/uncompleted/" + userID);
   }
+
+  deleteGameFromLibrary(gameID : string, userID : string) : Observable<User> {
+    return this.http.delete<User>(this.baseURL + "/delete/" + gameID + "/" + userID)
+    .pipe(
+      catchError(err => {
+        return of(null);
+      })
+    )
+  }
 }

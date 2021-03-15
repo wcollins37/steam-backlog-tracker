@@ -64,10 +64,10 @@
             </ng-container>
 
             <ng-container matColumnDef="logo">
-                <th class="header-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Logo</th>
+                <th class="header-cell" mat-header-cell *matHeaderCellDef>Logo</th>
                 <td mat-cell *matCellDef="let game" [id]="'logo_'+game.gameID"><img class="cell-img" [src]="game.img === 'http://media.steampowered.com/steamcommunity/public/images/apps/'+game.gameID+'/.jpg' ?
                     '../assets/empty.png' :
-                    game.img" style="height: 100px; width: 267px;"></td>
+                    game.img" style="height: 100px; width: 367px;"></td>
             </ng-container>
                 
             <ng-container matColumnDef="hoursPlayed">
@@ -75,8 +75,13 @@
                 <td mat-cell *matCellDef="let game" [id]="'hours_played_'+game.gameID">{{game.hoursPlayed}}</td>
             </ng-container>
 
-            <tr class="header-row" mat-header-row *matHeaderRowDef="['completed','name','logo','hoursPlayed']; sticky: true"></tr>
-            <tr class="row-cell" mat-row *matRowDef="let row; columns: ['completed','name','logo','hoursPlayed'];"></tr>
+            <ng-container matColumnDef="delete">
+                <th class="header-cell" mat-header-cell *matHeaderCellDef>Delete</th>
+                <td mat-cell *matCellDef="let game" [id]="'delete_'+game.gameID" (click)="deleteGameFromLibrary(game)"><img class="completed-img" src="../assets/delete.png"></td>
+            </ng-container>
+
+            <tr class="header-row" mat-header-row *matHeaderRowDef="['completed','name','logo','hoursPlayed','delete']; sticky: true"></tr>
+            <tr class="row-cell" mat-row *matRowDef="let row; columns: ['completed','name','logo','hoursPlayed','delete'];"></tr>
         </table>
     </div>
 </body>

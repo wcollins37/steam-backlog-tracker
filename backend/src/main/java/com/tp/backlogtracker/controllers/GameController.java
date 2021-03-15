@@ -107,4 +107,15 @@ public class GameController {
         }
         return ResponseEntity.ok(toReturn);
     }
+
+    @DeleteMapping("/delete/{gameID}/{userID}")
+    public ResponseEntity deleteGameFromLibrary(@PathVariable String gameID, @PathVariable String userID) {
+        User toReturn = null;
+        try {
+            toReturn = service.deleteGameFromLibrary(gameID, userID);
+        } catch (InvalidGameIDException | InvalidUserIDException | NoChangesMadeException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+        return ResponseEntity.ok(toReturn);
+    }
 }

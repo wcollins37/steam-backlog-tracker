@@ -323,4 +323,22 @@ public class GamePostgresDao implements GameDao {
                 new IntMapper("count"),
                 userID);
     }
+
+    @Override
+    public void deleteGameFromLibrary(String gameID, String userID) throws InvalidGameIDException, InvalidUserIDException, NoChangesMadeException {
+        if (gameID == null) {
+            throw new InvalidGameIDException("Game ID cannot be null");
+        }
+        if (userID == null) {
+            throw new InvalidUserIDException("User ID cannot be null");
+        }
+
+        try {
+            template.update("delete from \"UserGames\" where \"userID\" = ? and \"gameID\" = ?",
+                    userID,
+                    gameID);
+        } catch (DataAccessException ex) {
+            throw new NoChangesMadeException("No changes made");
+        }
+    }
 }
