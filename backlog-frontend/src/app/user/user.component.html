@@ -37,7 +37,7 @@
             </ng-container>
 
             <ng-container matColumnDef="logo">
-                <th class="header-cell" mat-header-cell *matHeaderCellDef>Logo</th>
+                <th class="header-cell" mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let game" [id]="'logo_'+game.gameID"><img class="cell-img" [src]="game.img === 'http://media.steampowered.com/steamcommunity/public/images/apps/'+game.gameID+'/.jpg' ?
                     '../assets/empty.png' :
                     game.img" style="height: 100px; width: 367px;"></td>
@@ -53,8 +53,8 @@
                 <td mat-cell *matCellDef="let game" [id]="'delete_'+game.gameID" (click)="deleteGameFromLibrary(game)"><img class="completed-img" src="../assets/delete.png"></td>
             </ng-container>
 
-            <tr class="header-row" mat-header-row *matHeaderRowDef="['completed','name','logo','hoursPlayed','delete']; sticky: true"></tr>
-            <tr class="row-cell" mat-row *matRowDef="let row; columns: ['completed','name','logo','hoursPlayed','delete'];"></tr>
+            <tr class="header-row" mat-header-row *matHeaderRowDef="['completed','name','hoursPlayed','logo','delete']; sticky: true"></tr>
+            <tr class="row-cell" mat-row *matRowDef="let row; columns: ['completed','name','hoursPlayed','logo','delete'];"></tr>
         </table>
     </div>
 </body>
