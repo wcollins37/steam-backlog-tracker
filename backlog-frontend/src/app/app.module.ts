@@ -6,14 +6,11 @@ import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
 import { LibraryComponent } from './library/library.component';
 import { UserComponent } from './user/user.component';
-import { GetUserComponent } from './get-user/get-user.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddUserComponent } from './add-user/add-user.component';
-import { DetailedGameComponent } from './detailed-game/detailed-game.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
-import { GameTableComponent } from './game-table/game-table.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
@@ -24,10 +21,7 @@ import {MatButtonModule} from '@angular/material/button';
     GameComponent,
     LibraryComponent,
     UserComponent,
-    GetUserComponent,
-    AddUserComponent,
-    DetailedGameComponent,
-    GameTableComponent
+    AddUserComponent
   ],
   imports: [
     BrowserModule,

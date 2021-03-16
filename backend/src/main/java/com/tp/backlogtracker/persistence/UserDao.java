@@ -11,5 +11,5 @@ public interface UserDao {
     String addFriend(String userID, String friendID) throws InvalidUserIDException, NoChangesMadeException;
     List<User> getUserFriends(String userID) throws InvalidUserIDException;
     boolean checkIfUserOwnsGame(String userID, String gameID) throws InvalidUserIDException, InvalidGameIDException;
-    int updateUserInfo(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException;
+    int updateUserInfo(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException, InvalidAvatarException;
 }

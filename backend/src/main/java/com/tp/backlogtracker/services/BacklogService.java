@@ -185,7 +185,7 @@ public class BacklogService {
         }
     }
 
-    public User updateUser(User user) throws InvalidUserIDException, InvalidUserNameException, InvalidGameIDException {
+    public User updateUser(User user) throws InvalidUserIDException, InvalidUserNameException, InvalidGameIDException, InvalidAvatarException {
         int updateStatus = this.userDao.updateUserInfo(user.getUserID(), user.getName(), user.getAvatarSrc());
         if (updateStatus == 0) {
             try {

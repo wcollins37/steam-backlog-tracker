@@ -84,7 +84,7 @@ public class UserController {
         User toReturn = null;
         try {
             toReturn = service.updateUser(user);
-        } catch (InvalidUserNameException | InvalidGameIDException | InvalidUserIDException ex) {
+        } catch (InvalidUserNameException | InvalidGameIDException | InvalidUserIDException | InvalidAvatarException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return ResponseEntity.ok(toReturn);

@@ -1,9 +1,6 @@
 package com.tp.backlogtracker.persistence;
 
-import com.tp.backlogtracker.exceptions.InvalidGameIDException;
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.InvalidUserNameException;
-import com.tp.backlogtracker.exceptions.NoChangesMadeException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -58,7 +55,7 @@ public class UserPostgresDao implements UserDao {
             partialUser = template.queryForObject(
                     "select \"userID\",\"name\",\"avatarSrc\"\n" +
                             "from \"Users\"\n" +
-                            "where \"Users\".\"userID\" = ?;",
+                            "where \"userID\" = ?;",
                     new PartialUserMapper("userID"),
                     userID);
         } catch (EmptyResultDataAccessException ex) {
@@ -133,12 +130,15 @@ public class UserPostgresDao implements UserDao {
     }
 
     @Override
-    public int updateUserInfo(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException {
+    public int updateUserInfo(String userID, String name, String avatarSrc) throws InvalidUserIDException, InvalidUserNameException, InvalidAvatarException {
         if (userID == null || userID == "") {
             throw new InvalidUserIDException("User ID cannot be null or empty");
         }
         if (name == null || name == "") {
             throw new InvalidUserNameException("Username cannot be null or empty");
+        }
+        if (avatarSrc == null || avatarSrc == "") {
+            throw new InvalidAvatarException("Avatar cannot be null or empty");
         }
 
         int status = -1;

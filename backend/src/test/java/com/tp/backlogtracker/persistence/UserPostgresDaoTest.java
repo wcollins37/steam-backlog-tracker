@@ -1,9 +1,6 @@
 package com.tp.backlogtracker.persistence;
 
-import com.tp.backlogtracker.exceptions.InvalidUserIDException;
-import com.tp.backlogtracker.exceptions.InvalidUserNameException;
-import com.tp.backlogtracker.exceptions.NoChangesMadeException;
-import com.tp.backlogtracker.exceptions.NoGamesFoundException;
+import com.tp.backlogtracker.exceptions.*;
 import com.tp.backlogtracker.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +29,7 @@ class UserPostgresDaoTest {
     @BeforeEach
     public void setup() {
         template.update("truncate \"UserFriends\",\"UserGames\",\"GameGenres\",\"Games\",\"Genres\",\"Users\" restart identity;");
-        template.update("insert into \"Users\" (\"userID\",\"name\") values('1','testUser'),('2','noGames');");
+        template.update("insert into \"Users\" (\"userID\",\"name\",\"avatarSrc\") values('1','testUser','testImage'),('2','noGames','testImage2');");
         template.update("insert into \"Games\" (\"gameID\",\"name\") values('1','testGame'),('2','testGame2'),('3','testGame3');\n" +
                 "insert into \"Genres\" (\"genreID\",\"name\") values('1','testGenre'),('2','testGenre2');\n" +
                 "insert into \"GameGenres\" (\"gameID\",\"genreID\") values('1','1'),('2','2'),('3','1');\n" +
@@ -138,7 +135,7 @@ class UserPostgresDaoTest {
         }
     }
 
-    @Test
+/*    @Test
     public void testGetUserFriendsGoldenPath() {
         List<User> friends = new ArrayList<>();
         try {
@@ -166,5 +163,71 @@ class UserPostgresDaoTest {
         } catch (InvalidUserIDException ex) {
             fail();
         }
+    }
+    */
+
+    @Test
+    public void testCheckIfUserOwnsGameGoldenPath() {
+        boolean gameOwned = false;
+        try {
+            gameOwned = toTest.checkIfUserOwnsGame("1","1");
+        } catch (InvalidUserIDException | InvalidGameIDException ex) {
+            fail();
+        }
+        assertTrue(gameOwned);
+
+        try {
+            gameOwned = toTest.checkIfUserOwnsGame("1","99");
+        } catch (InvalidUserIDException | InvalidGameIDException ex) {
+            fail();
+        }
+        assertFalse(gameOwned);
+
+        try {
+            gameOwned = toTest.checkIfUserOwnsGame("99","1");
+        } catch (InvalidUserIDException | InvalidGameIDException ex) {
+            fail();
+        }
+        assertFalse(gameOwned);
+    }
+
+    @Test
+    public void testCheckIfUserOwnsGameNullUserID() {
+        assertThrows(InvalidUserIDException.class, () -> toTest.checkIfUserOwnsGame(null, "1"));
+    }
+
+    @Test
+    public void testCheckIfUserOwnsGameNullGameID() {
+        assertThrows(InvalidGameIDException.class, () -> toTest.checkIfUserOwnsGame("1", null));
+    }
+
+    @Test
+    public void testUpdateUserInfoGoldenPath() {
+        User updatedUser = null;
+        try {
+            toTest.updateUserInfo("1", "updatedUser", "updatedImage");
+            updatedUser = toTest.getUserByID("1");
+        } catch (InvalidUserIDException | InvalidUserNameException | InvalidAvatarException ex) {
+            fail();
+        }
+
+        assertEquals("1", updatedUser.getUserID());
+        assertEquals("updatedUser", updatedUser.getName());
+        assertEquals("updatedImage", updatedUser.getAvatarSrc());
+    }
+
+    @Test
+    public void testUpdateUserInfoNullUserID() {
+        assertThrows(InvalidUserIDException.class, () -> toTest.updateUserInfo(null, "no", "no"));
+    }
+
+    @Test
+    public void testUpdateUserInfoNullUsername() {
+        assertThrows(InvalidUserNameException.class, () -> toTest.updateUserInfo("1", null, "no"));
+    }
+
+    @Test
+    public void testUpdateUserInfoNullAvatar() {
+        assertThrows(InvalidAvatarException.class, () -> toTest.updateUserInfo("1", "no", null));
     }
 }
