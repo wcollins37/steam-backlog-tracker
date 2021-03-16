@@ -4,7 +4,7 @@
             <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
             <button mat-raised-button (click)="backToAddUser()">Back</button>
         </div>
-        <img [src]="this.user.avatarSrc">
+        <img *ngIf="user != null && user != undefined" [src]="this.user.avatarSrc">
         <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
         <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
         <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>

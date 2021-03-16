@@ -123,8 +123,7 @@ export class UserComponent implements OnInit {
   }
 
   navigateToStore(game : Game) {
-    let formattedTitle : string = game.name.split(' ').join('_');
-    window.location.href = "https://store.steampowered.com/app/" + game.gameID + "/" + formattedTitle;
+    window.location.href = "https://store.steampowered.com/app/" + game.gameID;
   }
 
   updateUser() {

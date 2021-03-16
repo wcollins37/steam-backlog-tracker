@@ -42,7 +42,6 @@
     font-size: large;
 }
 .cell-img{
-    object-fit: cover;
     width: 100%;
 }
 .header{
@@ -60,9 +59,9 @@ body{
     background-color: #646c76;
 }
 .header-cell{
-    z-index: 1 !important;
     background-color: #042430;
     color: white;
+    top: -1px !important;
 }
 .mat-cell{
     background-color: #646c76;
@@ -81,6 +80,7 @@ body{
 }
 .header-row{
     text-align: center;
+    z-index: 1 !important;
 }
 .back-button{
     text-align: left;
