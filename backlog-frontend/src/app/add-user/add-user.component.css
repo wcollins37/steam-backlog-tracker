@@ -3,3 +3,7 @@ body{
     text-align: center;
     height: 100%;
 }
+.top-button{
+    background-color: #646c76;
+    color: white;
+}

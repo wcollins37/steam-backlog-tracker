@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
-import { LibraryComponent } from './library/library.component';
 import { UserComponent } from './user/user.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,7 +18,6 @@ import {MatButtonModule} from '@angular/material/button';
   declarations: [
     AppComponent,
     GameComponent,
-    LibraryComponent,
     UserComponent,
     AddUserComponent
   ],

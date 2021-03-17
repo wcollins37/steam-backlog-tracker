@@ -2,14 +2,14 @@
     <div *ngIf="!loading" class="topbar">
         <div class="back-button">
             <p class="error" *ngIf="errorMessage != ''">{{errorMessage}}</p>
-            <button mat-raised-button (click)="backToAddUser()">Back</button>
+            <button mat-raised-button class="top-button" (click)="backToAddUser()">Back</button>
         </div>
         <img *ngIf="user != null && user != undefined" [src]="this.user.avatarSrc">
         <p *ngIf="user != null && user != undefined">{{user.name}}'s Library</p>
         <p *ngIf="user != null && user != undefined">Average playtime per game: {{user.avgPlayTime}} hours</p>
         <p *ngIf="user != null && user != undefined">Number of uncompleted games in library: {{user.numUncompletedGames}}</p>
         <p *ngIf="user != null && user != undefined" style="margin-bottom: 5px">{{user.percentCompleted}}% of {{user.name}}'s library has been completed</p>
-        <button *ngIf="user != null && user != undefined" mat-raised-button (click)="updateUser()" style="margin-bottom: 5px;">Update User</button>
+        <button *ngIf="user != null && user != undefined" mat-raised-button class="top-button" (click)="updateUser()" style="margin-bottom: 5px;">Update User</button>
         <div *ngIf="user != null && user != undefined" class="controls">
             <div class="displayedGames" style="margin-bottom: 5px">
                 <input type="radio" id="all" name="displayed" value="all" checked="true" (change)="changeDisplayedGames($event.target.value)">
@@ -18,11 +18,11 @@
                 <input type="radio" id="uncompleted" name="displayed" value="uncompleted" (change)="changeDisplayedGames($event.target.value)">
                 <label for="uncompleted">Uncompleted Games</label>
             </div>
-            <button mat-raised-button (click)="getRandomGame()">Pick Random Game</button>
-            <button mat-raised-button (click)="pickLeastPlayedUncompletedGame()">Least Played Uncompleted Game</button>
+            <button mat-raised-button class="top-button" (click)="getRandomGame()">Pick Random Game</button>
+            <button mat-raised-button class="top-button" (click)="pickLeastPlayedUncompletedGame()">Least Played Uncompleted Game</button>
         </div>
     </div>
-    <div #games id= "games" class="games" *ngIf="user != null && user != undefined">
+    <div #games id= "games" class="games end-column" *ngIf="user != null && user != undefined">
         <table mat-table #mytable class="gameTable" [dataSource]="user.library" matSort (matSortChange)="sortData($event); games.scrollTop = 0;">
             <ng-container matColumnDef="completed">
                 <th class="header-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Completed?</th>
@@ -37,7 +37,7 @@
             </ng-container>
 
             <ng-container matColumnDef="logo">
-                <th class="header-cell" mat-header-cell *matHeaderCellDef></th>
+                <th class="header-cell" mat-header-cell *matHeaderCellDef style="width: 367px;"></th>
                 <td mat-cell *matCellDef="let game" [id]="'logo_'+game.gameID"><img class="cell-img" [src]="game.img === 'http://media.steampowered.com/steamcommunity/public/images/apps/'+game.gameID+'/.jpg' ?
                     '../assets/empty.png' :
                     game.img" style="height: 100px; width: 367px;"></td>
@@ -49,8 +49,8 @@
             </ng-container>
 
             <ng-container matColumnDef="delete">
-                <th class="header-cell" mat-header-cell *matHeaderCellDef>Delete</th>
-                <td mat-cell *matCellDef="let game" [id]="'delete_'+game.gameID" (click)="deleteGameFromLibrary(game)"><img class="completed-img" src="../assets/delete.png"></td>
+                <th class="header-cell end-column" mat-header-cell *matHeaderCellDef>Delete</th>
+                <td mat-cell *matCellDef="let game" [id]="'delete_'+game.gameID" (click)="deleteGameFromLibrary(game)" style="padding: 0"><img class="completed-img" src="../assets/delete.png"></td>
             </ng-container>
 
             <tr class="header-row" mat-header-row *matHeaderRowDef="['completed','name','hoursPlayed','logo','delete']; sticky: true"></tr>

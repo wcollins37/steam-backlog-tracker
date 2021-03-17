@@ -94,3 +94,11 @@ body{
 td.mat-cell:first-of-type{
     padding-left: 0px !important;
 }
+.end-column{
+    padding: 0 !important;
+    text-align: center;
+}
+.top-button{
+    background-color: #646c76;
+    color: white;
+}
