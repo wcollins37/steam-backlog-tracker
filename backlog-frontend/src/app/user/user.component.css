@@ -102,3 +102,6 @@ td.mat-cell:first-of-type{
     background-color: #646c76;
     color: white;
 }
+.hours-cell{
+    padding-left: 40px;
+}

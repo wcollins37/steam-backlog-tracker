@@ -44,7 +44,7 @@
             </ng-container>
                 
             <ng-container matColumnDef="hoursPlayed">
-                <th class="header-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Hours Played</th>
+                <th class="header-cell hours-cell" mat-header-cell *matHeaderCellDef mat-sort-header>Hours Played</th>
                 <td mat-cell *matCellDef="let game" [id]="'hours_played_'+game.gameID">{{game.hoursPlayed}}</td>
             </ng-container>
 
