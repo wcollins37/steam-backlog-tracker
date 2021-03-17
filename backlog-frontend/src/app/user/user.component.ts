@@ -133,8 +133,16 @@ export class UserComponent implements OnInit {
         updatedUser.library = steamGames;
         this.libService.updateUser(updatedUser).subscribe(x => {
           this.user = x;
-          this.sortData(this.lastSort);
-          this.totalLibrarySize = x.library.length;
+          if (this.displayedGames === "uncompleted") {
+            this.libService.getUncompletedGames(this.user.userID).subscribe(uncomp => {
+              this.user.library = uncomp;
+              this.sortData(this.lastSort);
+              this.totalLibrarySize = x.library.length;
+            })
+          } else {
+            this.sortData(this.lastSort);
+            this.totalLibrarySize = x.library.length;
+          }
         })
       })
     })
