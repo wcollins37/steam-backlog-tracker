@@ -128,7 +128,7 @@ export class UserComponent implements OnInit {
 
   updateUser() {
     this.libService.retrieveSteamUserInfo(this.user.userID).subscribe(steamUser => {
-      let updatedUser : User = {userID: this.user.userID, name: steamUser.response.players[0].personaname, avatarSrc: steamUser.response.players[0].avatar};
+      let updatedUser : User = {userID: this.user.userID, name: steamUser.response.players[0].personaname, avatarSrc: steamUser.response.players[0].avatarmedium};
       this.libService.retrieveSteamUserLibrary(this.user.userID).subscribe(steamGames => {
         updatedUser.library = steamGames;
         this.libService.updateUser(updatedUser).subscribe(x => {

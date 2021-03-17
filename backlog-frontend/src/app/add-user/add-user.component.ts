@@ -29,7 +29,7 @@ export class AddUserComponent implements OnInit {
       }
       else {
         this.name = x.response.players[0].personaname;
-        this.avatarSrc = x.response.players[0].avatar;
+        this.avatarSrc = x.response.players[0].avatarmedium;
         let toAdd : User = {userID: this.userID, name: this.name, avatarSrc: this.avatarSrc};
         this.statusMessage = "User " + toAdd.name + " found";
         this.libService.addUser(toAdd).subscribe(added => {
