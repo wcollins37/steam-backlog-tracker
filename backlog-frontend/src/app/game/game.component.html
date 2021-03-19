@@ -1,9 +1,0 @@
-<div class="game" [class.completed]="game.completed">
-    <img [src]="game.img">
-    <div class="title">
-        <p>{{game.name}}</p>
-    </div>
-    <p>{{game.hoursPlayed}} hours played</p>
-    <input type="checkbox" name="CompletedBox" [checked]="game.completed" (change)="changeCompleted()">
-    <label for="CompletedBox">Completed</label>
-</div>
